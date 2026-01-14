@@ -153,7 +153,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
+      transition: { duration: 0.6, ease: [0, 0, 0.58, 1] as const }
     },
   };
 
@@ -172,7 +172,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
-      transition: { duration: 0.4, ease: "easeOut" }
+      transition: { duration: 0.4, ease: [0, 0, 0.58, 1] as const }
     },
   };
 

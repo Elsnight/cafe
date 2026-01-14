@@ -21,6 +21,7 @@ export default function ProgressCircle({
   const [animatedPercentage, setAnimatedPercentage] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  
   // Tamaños responsive basados en el tamaño base
   const responsiveSize = size < 120 ? 100 : size < 144 ? 120 : 144;
   const radius = (responsiveSize - strokeWidth) / 2;
@@ -50,7 +51,7 @@ export default function ProgressCircle({
 
     return () => clearInterval(timer);
   }, [percentage, isInView]);
-  
+
   return (
     <div ref={ref} className="flex flex-col items-center w-full">
       <div className="relative w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[144px] md:h-[144px]">
@@ -82,7 +83,7 @@ export default function ProgressCircle({
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             initial={{ strokeDashoffset: circumference }}
-            transition={{ duration: 2, ease: "easeOut" }}
+            transition={{ duration: 2, ease: [0.6, -0.05, 0.01, 0.99] }}
             className="drop-shadow-sm"
           />
         </svg>

@@ -11,15 +11,7 @@ export default function About() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
-  const fadeIn = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: { duration: 0.6 },
     },
   };
 
@@ -28,7 +20,7 @@ export default function About() {
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6 },
     },
   };
 
@@ -150,7 +142,7 @@ export default function About() {
                   initial={{ scale: 1.1 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  transition={{ duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }}
                   className="w-full h-full"
                 >
                   <Image
@@ -166,7 +158,7 @@ export default function About() {
               <motion.div 
                 className="absolute inset-0 rounded-full border-4 border-gold/20 -z-10 scale-110"
                 animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" as const }}
               />
             </motion.div>
           </motion.div>

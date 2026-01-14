@@ -10,7 +10,7 @@ export default function Products() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: [0, 0, 0.58, 1] as const },
     },
   };
 
@@ -123,7 +123,7 @@ export default function Products() {
               <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-64 overflow-hidden">
                 <motion.div
                   whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  transition={{ duration: 0.4, ease: [0, 0, 0.58, 1] as const }}
                   className="w-full h-full"
                 >
                   <Image
@@ -140,7 +140,7 @@ export default function Products() {
                     initial={{ scale: 0, rotate: -180 }}
                     whileInView={{ scale: 1, rotate: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    transition={{ duration: 0.5, ease: [0, 0, 0.58, 1] as const }}
                     className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getLabelStyles(
                       product.labelType
                     )}`}

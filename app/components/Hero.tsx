@@ -21,7 +21,7 @@ export default function Hero() {
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
+      transition: { duration: 0.6, ease: [0, 0, 0.58, 1] as const }
     },
   };
 
@@ -29,7 +29,7 @@ export default function Hero() {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
-      transition: { duration: 0.8, ease: "easeOut" }
+      transition: { duration: 0.8, ease: [0, 0, 0.58, 1] as const }
     },
   };
 
@@ -38,7 +38,7 @@ export default function Hero() {
     visible: { 
       opacity: 1, 
       scale: 1,
-      transition: { duration: 0.6, ease: "easeOut" }
+      transition: { duration: 0.6, ease: [0, 0, 0.58, 1] as const }
     },
   };
 
@@ -192,7 +192,7 @@ export default function Hero() {
           transition={{ 
             duration: 1.5, 
             repeat: Infinity, 
-            ease: "easeInOut" 
+            ease: [0.42, 0, 0.58, 1] as const 
           }}
           className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center"
         >
@@ -201,7 +201,7 @@ export default function Hero() {
             transition={{ 
               duration: 1.5, 
               repeat: Infinity, 
-              ease: "easeInOut" 
+              ease: [0.42, 0, 0.58, 1] as const 
             }}
             className="w-1.5 h-3 bg-white/70 rounded-full mt-2"
           />

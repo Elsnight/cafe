@@ -141,7 +141,7 @@ export default function Features() {
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    transition={{ duration: 0.5, ease: [0, 0, 0.58, 1] as const }}
                   >
                     {feature.icon}
                   </motion.div>
