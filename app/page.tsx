@@ -7,6 +7,7 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import Features from "./components/Features";
 import Products from "./components/Products";
+import CTA from "./components/CTA";
 
 const presentaciones = ["Molido", "Grano entero"];
 const tipos = ["Caturra", "Typica", "Blend Premium"];
@@ -189,6 +190,9 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
 
       {/* Products Section */}
       <Products />
+
+      {/* CTA Section */}
+      <CTA />
 
       {/* Selección de Pedido Section */}
       <section
