@@ -5,31 +5,8 @@ import { motion } from "framer-motion";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
-
-// Datos mock de productos
-const productos = [
-  {
-    id: 1,
-    nombre: "Café de Origen - Caturra",
-    descripcion: "Notas de chocolate y caramelo, cuerpo medio",
-    precio: "$24.99",
-    imagen: "☕",
-  },
-  {
-    id: 2,
-    nombre: "Café de Origen - Typica",
-    descripcion: "Aromas florales, acidez brillante",
-    precio: "$26.99",
-    imagen: "🌿",
-  },
-  {
-    id: 3,
-    nombre: "Blend Premium",
-    descripcion: "Mezcla equilibrada, perfecta para el día a día",
-    precio: "$22.99",
-    imagen: "✨",
-  },
-];
+import Features from "./components/Features";
+import Products from "./components/Products";
 
 const presentaciones = ["Molido", "Grano entero"];
 const tipos = ["Caturra", "Typica", "Blend Premium"];
@@ -207,64 +184,11 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
       {/* About Section */}
       <About />
 
-      {/* Productos Section */}
-      <section
-        id="productos"
-        className="py-12 sm:py-16 md:py-24 lg:py-32 bg-beige-warm"
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-            className="text-center mb-8 sm:mb-12"
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif mb-3 sm:mb-4 text-coffee-dark px-4">
-              Nuestros Productos
-            </h2>
-            <p className="text-base sm:text-lg text-coffee-medium max-w-2xl mx-auto px-4">
-              Selección premium de cafés de origen único, cada uno con su
-              personalidad única
-            </p>
-          </motion.div>
+      {/* Features Section */}
+      <Features />
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto"
-          >
-            {productos.map((producto, index) => (
-              <motion.div
-                key={producto.id}
-                variants={fadeInUp}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                whileTap={{ y: -4 }}
-                className="card bg-white"
-              >
-                <div className="text-5xl sm:text-6xl mb-3 sm:mb-4 text-center">{producto.imagen}</div>
-                <h3 className="text-lg sm:text-xl font-serif font-semibold mb-2 text-coffee-dark">
-                  {producto.nombre}
-                </h3>
-                <p className="text-sm sm:text-base text-coffee-medium mb-4">{producto.descripcion}</p>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mt-6">
-                  <span className="text-xl sm:text-2xl font-serif font-bold text-gold-dark">
-                    {producto.precio}
-                  </span>
-                  <a
-                    href="#pedido"
-                    className="w-full sm:w-auto text-center px-4 py-2 bg-gold text-coffee-dark rounded-md hover:bg-gold-light active:bg-gold-dark transition-all duration-200 text-sm font-medium hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
-                  >
-                    Pedir
-                  </a>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      {/* Products Section */}
+      <Products />
 
       {/* Selección de Pedido Section */}
       <section
