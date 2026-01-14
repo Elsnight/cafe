@@ -79,7 +79,11 @@ export default function CTA() {
             </div>
 
             {/* Imagen de fondo */}
-            <div className="relative h-[400px] sm:h-[500px] lg:h-full ml-20 sm:ml-24 md:ml-28 lg:ml-32">
+            <motion.div 
+              className="relative h-[400px] sm:h-[500px] lg:h-full ml-20 sm:ml-24 md:ml-28 lg:ml-32"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.5 }}
+            >
               <Image
                 src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=2070"
                 alt="Taza de café al atardecer"
@@ -89,7 +93,7 @@ export default function CTA() {
               />
               {/* Superposición sutil para mejor contraste */}
               <div className="absolute inset-0 bg-gradient-to-r from-coffee-dark/20 to-transparent" />
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Bloque derecho (texto) */}

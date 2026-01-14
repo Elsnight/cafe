@@ -121,22 +121,32 @@ export default function Products() {
             >
               {/* Imagen del producto */}
               <div className="relative w-full h-48 sm:h-56 md:h-64 overflow-hidden">
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-300"
-                  quality={90}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="w-full h-full"
+                >
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    fill
+                    className="object-cover"
+                    quality={90}
+                  />
+                </motion.div>
                 {/* Etiqueta */}
                 {product.label && (
-                  <div
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                     className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getLabelStyles(
                       product.labelType
                     )}`}
                   >
                     {product.label}
-                  </div>
+                  </motion.div>
                 )}
               </div>
 
@@ -157,12 +167,14 @@ export default function Products() {
                   <span className="text-2xl sm:text-3xl font-serif font-bold text-gold-dark">
                     {product.price}
                   </span>
-                  <a
+                  <motion.a
                     href="#pedido"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     className="w-full sm:w-auto text-center px-5 py-2.5 bg-gold text-coffee-dark rounded-lg hover:bg-gold-light active:bg-gold-dark transition-all duration-200 text-sm font-medium hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
                   >
                     Ver Más
-                  </a>
+                  </motion.a>
                 </div>
               </div>
             </motion.div>

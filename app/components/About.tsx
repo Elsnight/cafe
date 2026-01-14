@@ -139,20 +139,36 @@ export default function About() {
             variants={scaleIn}
             className="flex justify-center lg:justify-start order-2 lg:order-1"
           >
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px]">
+            <motion.div 
+              className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px]"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
               {/* Imagen circular con borde decorativo */}
               <div className="absolute inset-0 rounded-full overflow-hidden shadow-2xl ring-4 ring-beige-warm ring-offset-8 ring-offset-white">
-                <Image
-                  src="https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=2070"
-                  alt="Barista preparando café artesanal"
-                  fill
-                  className="object-cover"
-                  quality={90}
-                />
+                <motion.div
+                  initial={{ scale: 1.1 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="w-full h-full"
+                >
+                  <Image
+                    src="https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=2070"
+                    alt="Barista preparando café artesanal"
+                    fill
+                    className="object-cover"
+                    quality={90}
+                  />
+                </motion.div>
               </div>
               {/* Decoración adicional - anillo exterior */}
-              <div className="absolute inset-0 rounded-full border-4 border-gold/20 -z-10 scale-110" />
-            </div>
+              <motion.div 
+                className="absolute inset-0 rounded-full border-4 border-gold/20 -z-10 scale-110"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+            </motion.div>
           </motion.div>
 
           {/* Contenido a la derecha */}

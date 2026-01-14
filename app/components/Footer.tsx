@@ -176,12 +176,13 @@ export default function Footer() {
             <ul className="space-y-3">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <motion.a
                     href={link.href}
-                    className="text-sm text-beige-warm/80 hover:text-gold transition-colors duration-300 inline-block hover:translate-x-1 transition-transform"
+                    whileHover={{ x: 5 }}
+                    className="text-sm text-beige-warm/80 hover:text-gold transition-colors duration-300 inline-block"
                   >
                     {link.label}
-                  </a>
+                  </motion.a>
                 </li>
               ))}
             </ul>
@@ -193,7 +194,11 @@ export default function Footer() {
               Contacto
             </h3>
             <ul className="space-y-3">
-              <li className="flex items-start space-x-3">
+              <motion.li 
+                className="flex items-start space-x-3"
+                whileHover={{ x: 3 }}
+                transition={{ duration: 0.2 }}
+              >
                 <svg
                   width="20"
                   height="20"
@@ -210,14 +215,19 @@ export default function Footer() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <a
+                <motion.a
                   href="mailto:contacto@faustoscoffee.com"
+                  whileHover={{ scale: 1.05 }}
                   className="text-sm text-beige-warm/80 hover:text-gold transition-colors duration-300"
                 >
                   contacto@faustoscoffee.com
-                </a>
-              </li>
-              <li className="flex items-start space-x-3">
+                </motion.a>
+              </motion.li>
+              <motion.li 
+                className="flex items-start space-x-3"
+                whileHover={{ x: 3 }}
+                transition={{ duration: 0.2 }}
+              >
                 <svg
                   width="20"
                   height="20"
@@ -248,15 +258,16 @@ export default function Footer() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <a
+                <motion.a
                   href="https://wa.me/593996436622"
                   target="_blank"
                   rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
                   className="text-sm text-beige-warm/80 hover:text-gold transition-colors duration-300"
                 >
                   +593 99 643 6622
-                </a>
-              </li>
+                </motion.a>
+              </motion.li>
               <li className="flex items-start space-x-3">
                 <svg
                   width="20"

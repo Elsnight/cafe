@@ -100,11 +100,21 @@ export default function Home() {
               <motion.div
                 key={index}
                 variants={fadeInUp}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.02,
+                  transition: { duration: 0.3 } 
+                }}
                 whileTap={{ y: -2 }}
                 className="text-center p-5 sm:p-6 bg-olive-medium rounded-lg hover:bg-olive-light transition-colors duration-200"
               >
-                <div className="text-4xl sm:text-5xl mb-3 sm:mb-4">{beneficio.icon}</div>
+                <motion.div 
+                  className="text-4xl sm:text-5xl mb-3 sm:mb-4"
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {beneficio.icon}
+                </motion.div>
                 <h3 className="text-lg sm:text-xl font-serif font-semibold mb-2 sm:mb-3">
                   {beneficio.title}
                 </h3>

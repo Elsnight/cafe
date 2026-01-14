@@ -150,7 +150,30 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
   // Variantes de animación
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { duration: 0.4, ease: "easeOut" }
+    },
   };
 
   return (
@@ -166,15 +189,28 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
           variants={fadeInUp}
           className="max-w-3xl mx-auto"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-center mb-3 sm:mb-4 text-coffee-dark px-4">
+          <motion.h2 
+            variants={fadeInUp}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-center mb-3 sm:mb-4 text-coffee-dark px-4"
+          >
             Realiza tu Pedido
-          </h2>
-          <p className="text-center text-base sm:text-lg text-coffee-medium mb-8 sm:mb-12 px-4">
+          </motion.h2>
+          <motion.p 
+            variants={fadeInUp}
+            className="text-center text-base sm:text-lg text-coffee-medium mb-8 sm:mb-12 px-4"
+          >
             Completa el formulario y te contactaremos por WhatsApp para
             confirmar tu pedido
-          </p>
+          </motion.p>
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          <motion.form 
+            onSubmit={handleSubmit} 
+            className="space-y-4 sm:space-y-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
             {errors.submit && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -186,19 +222,23 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
             )}
 
             {/* Selección de Café */}
-            <div className="card bg-beige-cream">
+            <motion.div 
+              variants={fadeInUp}
+              className="card bg-beige-cream"
+            >
               <h3 className="text-lg sm:text-xl font-serif font-semibold mb-4 sm:mb-6 text-coffee-dark">
                 Selecciona tu Café
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div>
+                <motion.div variants={fadeIn}>
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Presentación *
                   </label>
-                  <select
+                  <motion.select
                     name="presentacion"
                     value={formData.presentacion}
                     onChange={handleChange}
+                    whileFocus={{ scale: 1.02 }}
                     className={`select w-full ${errors.presentacion ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}`}
                     aria-invalid={errors.presentacion ? "true" : "false"}
                     aria-describedby={errors.presentacion ? "presentacion-error" : undefined}
@@ -209,19 +249,27 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                         {p}
                       </option>
                     ))}
-                  </select>
+                  </motion.select>
                   {errors.presentacion && (
-                    <p id="presentacion-error" className="mt-1 text-sm text-red-600">{errors.presentacion}</p>
+                    <motion.p 
+                      id="presentacion-error" 
+                      className="mt-1 text-sm text-red-600"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.presentacion}
+                    </motion.p>
                   )}
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={fadeIn}>
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Tipo *
                   </label>
-                  <select
+                  <motion.select
                     name="tipo"
                     value={formData.tipo}
                     onChange={handleChange}
+                    whileFocus={{ scale: 1.02 }}
                     className={`select w-full ${errors.tipo ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}`}
                     aria-invalid={errors.tipo ? "true" : "false"}
                     aria-describedby={errors.tipo ? "tipo-error" : undefined}
@@ -232,19 +280,30 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                         {t}
                       </option>
                     ))}
-                  </select>
+                  </motion.select>
                   {errors.tipo && (
-                    <p id="tipo-error" className="mt-1 text-sm text-red-600">{errors.tipo}</p>
+                    <motion.p 
+                      id="tipo-error" 
+                      className="mt-1 text-sm text-red-600"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.tipo}
+                    </motion.p>
                   )}
-                </div>
-                <div className="sm:col-span-2 lg:col-span-1">
+                </motion.div>
+                <motion.div 
+                  variants={fadeIn}
+                  className="sm:col-span-2 lg:col-span-1"
+                >
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Tueste *
                   </label>
-                  <select
+                  <motion.select
                     name="tueste"
                     value={formData.tueste}
                     onChange={handleChange}
+                    whileFocus={{ scale: 1.02 }}
                     className={`select w-full ${errors.tueste ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}`}
                     aria-invalid={errors.tueste ? "true" : "false"}
                     aria-describedby={errors.tueste ? "tueste-error" : undefined}
@@ -255,123 +314,179 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                         {t}
                       </option>
                     ))}
-                  </select>
+                  </motion.select>
                   {errors.tueste && (
-                    <p id="tueste-error" className="mt-1 text-sm text-red-600">{errors.tueste}</p>
+                    <motion.p 
+                      id="tueste-error" 
+                      className="mt-1 text-sm text-red-600"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.tueste}
+                    </motion.p>
                   )}
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Datos de Contacto */}
-            <div className="card bg-beige-cream">
+            <motion.div 
+              variants={fadeInUp}
+              className="card bg-beige-cream"
+            >
               <h3 className="text-lg sm:text-xl font-serif font-semibold mb-4 sm:mb-6 text-coffee-dark">
                 Datos de Contacto
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="sm:col-span-2">
+                <motion.div 
+                  variants={fadeIn}
+                  className="sm:col-span-2"
+                >
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Nombre completo *
                   </label>
-                  <input
+                  <motion.input
                     type="text"
                     name="nombre"
                     value={formData.nombre}
                     onChange={handleChange}
+                    whileFocus={{ scale: 1.02 }}
                     className={`input w-full ${errors.nombre ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}`}
                     aria-invalid={errors.nombre ? "true" : "false"}
                     aria-describedby={errors.nombre ? "nombre-error" : undefined}
                   />
                   {errors.nombre && (
-                    <p id="nombre-error" className="mt-1 text-sm text-red-600">{errors.nombre}</p>
+                    <motion.p 
+                      id="nombre-error" 
+                      className="mt-1 text-sm text-red-600"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.nombre}
+                    </motion.p>
                   )}
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={fadeIn}>
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Teléfono {!formData.email && "*"}
                   </label>
-                  <input
+                  <motion.input
                     type="tel"
                     name="telefono"
                     value={formData.telefono}
                     onChange={handleChange}
                     placeholder="Ej: 0996436622"
+                    whileFocus={{ scale: 1.02 }}
                     className={`input w-full ${errors.telefono ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}`}
                     aria-invalid={errors.telefono ? "true" : "false"}
                     aria-describedby={errors.telefono ? "telefono-error" : undefined}
                   />
                   {errors.telefono && (
-                    <p id="telefono-error" className="mt-1 text-sm text-red-600">{errors.telefono}</p>
+                    <motion.p 
+                      id="telefono-error" 
+                      className="mt-1 text-sm text-red-600"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.telefono}
+                    </motion.p>
                   )}
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={fadeIn}>
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Email {!formData.telefono && "*"}
                   </label>
-                  <input
+                  <motion.input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Ej: nombre@email.com"
+                    whileFocus={{ scale: 1.02 }}
                     className={`input w-full ${errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}`}
                     aria-invalid={errors.email ? "true" : "false"}
                     aria-describedby={errors.email ? "email-error" : undefined}
                   />
                   {errors.email && (
-                    <p id="email-error" className="mt-1 text-sm text-red-600">{errors.email}</p>
+                    <motion.p 
+                      id="email-error" 
+                      className="mt-1 text-sm text-red-600"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.email}
+                    </motion.p>
                   )}
                   <p className="mt-1 text-xs text-coffee-medium">
                     * Debes ingresar al menos un teléfono o email
                   </p>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Dirección */}
-            <div className="card bg-beige-cream">
+            <motion.div 
+              variants={fadeInUp}
+              className="card bg-beige-cream"
+            >
               <h3 className="text-lg sm:text-xl font-serif font-semibold mb-4 sm:mb-6 text-coffee-dark">
                 Dirección de Entrega
               </h3>
               <div className="space-y-4">
-                <div>
+                <motion.div variants={fadeIn}>
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Dirección completa *
                   </label>
-                  <input
+                  <motion.input
                     type="text"
                     name="direccion"
                     value={formData.direccion}
                     onChange={handleChange}
+                    whileFocus={{ scale: 1.02 }}
                     className={`input w-full ${errors.direccion ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}`}
                     aria-invalid={errors.direccion ? "true" : "false"}
                     aria-describedby={errors.direccion ? "direccion-error" : undefined}
                     required
                   />
                   {errors.direccion && (
-                    <p id="direccion-error" className="mt-1 text-sm text-red-600">{errors.direccion}</p>
+                    <motion.p 
+                      id="direccion-error" 
+                      className="mt-1 text-sm text-red-600"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.direccion}
+                    </motion.p>
                   )}
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={fadeIn}>
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Sector *
                   </label>
-                  <input
+                  <motion.input
                     type="text"
                     name="sector"
                     value={formData.sector}
                     onChange={handleChange}
+                    whileFocus={{ scale: 1.02 }}
                     className={`input w-full ${errors.sector ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}`}
                     aria-invalid={errors.sector ? "true" : "false"}
                     aria-describedby={errors.sector ? "sector-error" : undefined}
                     required
                   />
                   {errors.sector && (
-                    <p id="sector-error" className="mt-1 text-sm text-red-600">{errors.sector}</p>
+                    <motion.p 
+                      id="sector-error" 
+                      className="mt-1 text-sm text-red-600"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.sector}
+                    </motion.p>
                   )}
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Botón de envío */}
             <motion.button
@@ -383,7 +498,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
             >
               {isSubmitting ? "Enviando..." : "Enviar Pedido por WhatsApp"}
             </motion.button>
-          </form>
+          </motion.form>
         </motion.div>
       </div>
     </section>

@@ -224,12 +224,32 @@ export default function Header() {
           transition={{ duration: 0.3 }}
           className="md:hidden overflow-hidden"
         >
-          <div className="py-4 space-y-2">
-            {navItems.map((item) => (
-              <a
+          <motion.div 
+            className="py-4 space-y-2"
+            initial="hidden"
+            animate={isMobileMenuOpen ? "visible" : "hidden"}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.1,
+                  delayChildren: 0.1,
+                },
+              },
+            }}
+          >
+            {navItems.map((item, index) => (
+              <motion.a
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
+                variants={{
+                  hidden: { opacity: 0, x: -20 },
+                  visible: { opacity: 1, x: 0 },
+                }}
+                whileHover={{ x: 5 }}
+                whileTap={{ scale: 0.95 }}
                 className={`block px-4 py-2 rounded-lg text-base font-medium transition-colors duration-300 ${
                   isScrolled
                     ? "text-coffee-dark hover:bg-beige-warm"
@@ -237,11 +257,31 @@ export default function Header() {
                 }`}
               >
                 {item.label}
-              </a>
+              </motion.a>
             ))}
-            <div className="flex items-center space-x-4 pt-2 px-4">
-              <button
+            <motion.div 
+              className="flex items-center space-x-4 pt-2 px-4"
+              initial="hidden"
+              animate={isMobileMenuOpen ? "visible" : "hidden"}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.1,
+                    delayChildren: 0.3,
+                  },
+                },
+              }}
+            >
+              <motion.button
                 aria-label="Buscar"
+                variants={{
+                  hidden: { opacity: 0, scale: 0 },
+                  visible: { opacity: 1, scale: 1 },
+                }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 className={`p-2 rounded-lg transition-colors duration-300 ${
                   isScrolled
                     ? "text-coffee-dark hover:bg-beige-warm"
@@ -270,9 +310,15 @@ export default function Header() {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 aria-label="Carrito de compras"
+                variants={{
+                  hidden: { opacity: 0, scale: 0 },
+                  visible: { opacity: 1, scale: 1 },
+                }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 className={`p-2 rounded-lg transition-colors duration-300 relative ${
                   isScrolled
                     ? "text-coffee-dark hover:bg-beige-warm"
@@ -294,12 +340,16 @@ export default function Header() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-coffee-dark text-xs font-bold rounded-full flex items-center justify-center">
+                <motion.span 
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-coffee-dark text-xs font-bold rounded-full flex items-center justify-center"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
                   0
-                </span>
-              </button>
-            </div>
-          </div>
+                </motion.span>
+              </motion.button>
+            </motion.div>
+          </motion.div>
         </motion.div>
       </nav>
     </motion.header>

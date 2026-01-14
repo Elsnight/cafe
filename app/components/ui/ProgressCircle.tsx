@@ -84,14 +84,23 @@ export default function ProgressCircle({
           />
         </svg>
         {/* Porcentaje en el centro */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span
+        <motion.div 
+          className="absolute inset-0 flex items-center justify-center"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <motion.span
             className="font-serif font-bold text-coffee-dark"
             style={{ fontSize: size * 0.2 }}
+            key={Math.round(animatedPercentage)}
+            initial={{ scale: 1.2 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.2 }}
           >
             {Math.round(animatedPercentage)}%
-          </span>
-        </div>
+          </motion.span>
+        </motion.div>
       </div>
       {/* Etiqueta */}
       <p

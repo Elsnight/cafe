@@ -130,11 +130,23 @@ export default function Features() {
               className="bg-white rounded-xl p-6 sm:p-8 shadow-md hover:shadow-xl transition-all duration-300 border border-beige-medium"
             >
               {/* Icono circular */}
-              <div className="flex justify-center mb-6">
+              <motion.div 
+                className="flex justify-center mb-6"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ duration: 0.3 }}
+              >
                 <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-beige-warm flex items-center justify-center text-gold">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12">{feature.icon}</div>
+                  <motion.div 
+                    className="w-10 h-10 sm:w-12 sm:h-12"
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  >
+                    {feature.icon}
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Título */}
               <h3 className="text-xl sm:text-2xl font-serif font-semibold mb-4 text-olive-dark text-center">
