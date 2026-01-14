@@ -65,7 +65,7 @@ export default function Hero() {
         style={{ y, opacity }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=2070"
+          src="/Imagenes/WhatsApp Image 2026-01-14 at 1.02.24 PM (1).jpeg"
           alt="Campos de café"
           fill
           priority

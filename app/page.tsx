@@ -6,6 +6,7 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import Features from "./components/Features";
 import Products from "./components/Products";
+import Gallery from "./components/Gallery";
 import CTA from "./components/CTA";
 import OrderForm from "./components/OrderForm";
 import Footer from "./components/Footer";
@@ -44,6 +45,9 @@ export default function Home() {
 
       {/* Products Section */}
       <Products />
+
+      {/* Gallery Section */}
+      <Gallery />
 
       {/* CTA Section */}
       <CTA />

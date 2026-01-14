@@ -85,7 +85,7 @@ export default function CTA() {
               transition={{ duration: 0.5 }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=2070"
+                src="/Imagenes/WhatsApp Image 2026-01-14 at 1.05.02 PM (1).jpeg"
                 alt="Taza de café al atardecer"
                 fill
                 className="object-cover"

@@ -146,7 +146,7 @@ export default function About() {
                   className="w-full h-full"
                 >
                   <Image
-                    src="https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=2070"
+                    src="/Imagenes/WhatsApp Image 2026-01-14 at 1.02.25 PM - copia.jpeg"
                     alt="Barista preparando café artesanal"
                     fill
                     className="object-cover"

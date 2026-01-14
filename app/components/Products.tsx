@@ -32,7 +32,7 @@ export default function Products() {
       description:
         "Granos seleccionados de origen único, tostados artesanalmente para preservar sus notas características y aroma intenso.",
       price: "$24.99",
-      image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=2070",
+      image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.02.25 PM.jpeg",
       label: "Destacado",
       labelType: "featured" as const,
     },
@@ -42,7 +42,7 @@ export default function Products() {
       description:
         "Café molido fresco, listo para preparar. Disponible en diferentes niveles de molienda según tu método de preparación preferido.",
       price: "$22.99",
-      image: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?q=80&w=2035",
+      image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.02.26 PM (1).jpeg",
       label: "Nuevo",
       labelType: "new" as const,
     },
@@ -52,7 +52,7 @@ export default function Products() {
       description:
         "Mezclas exclusivas creadas por nuestro maestro tostador. Combinaciones perfectas de diferentes orígenes para sabores únicos.",
       price: "$26.99",
-      image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=2061",
+      image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.02.26 PM (2).jpeg",
       label: null,
       labelType: null,
     },
@@ -62,7 +62,7 @@ export default function Products() {
       description:
         "Completa tu experiencia cafetera con nuestros accesorios seleccionados: molinillos, prensas francesas y más.",
       price: "$19.99",
-      image: "https://images.unsplash.com/photo-1517668808823-f8f0e8e3b3f3?q=80&w=2070",
+      image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.05.02 PM.jpeg",
       label: "Oferta",
       labelType: "sale" as const,
     },
