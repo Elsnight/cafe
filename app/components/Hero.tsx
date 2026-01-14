@@ -1,9 +1,20 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
 
 export default function Hero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  });
+
+  // Efecto parallax para la imagen de fondo
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   // Variantes de animación
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
@@ -44,11 +55,15 @@ export default function Hero() {
 
   return (
     <section
+      ref={ref}
       id="home"
       className="relative h-screen w-full overflow-hidden"
     >
-      {/* Imagen de fondo */}
-      <div className="absolute inset-0 z-0">
+      {/* Imagen de fondo con efecto parallax */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        style={{ y, opacity }}
+      >
         <Image
           src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=2070"
           alt="Campos de café"
@@ -59,7 +74,7 @@ export default function Hero() {
         />
         {/* Superposición oscura (marrón café profundo) */}
         <div className="absolute inset-0 bg-coffee-dark/75" />
-      </div>
+      </motion.div>
 
       {/* Contenido principal */}
       <motion.div
