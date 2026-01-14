@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
 
 // Datos mock de productos
 const productos = [
@@ -195,48 +197,11 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
 
   return (
     <div className="min-h-screen bg-beige-cream">
+      {/* Header */}
+      <Header />
+      
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-coffee-dark via-coffee-medium to-coffee-light text-white">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-          className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-32 xl:py-40"
-        >
-          <motion.div
-            variants={fadeInUp}
-            className="max-w-3xl mx-auto text-center space-y-4 sm:space-y-6"
-          >
-            <motion.h1
-              variants={fadeInUp}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold leading-tight px-2"
-            >
-              Fausto&apos;s Coffee
-            </motion.h1>
-            <motion.p
-              variants={fadeInUp}
-              className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif italic text-gold-light px-4"
-            >
-              Origen selecto, tostado con alma
-            </motion.p>
-            <motion.p
-              variants={fadeInUp}
-              className="text-base sm:text-lg md:text-xl text-beige-warm max-w-2xl mx-auto mt-6 sm:mt-8 px-4 leading-relaxed"
-            >
-              Descubre el sabor auténtico del café de especialidad, cultivado
-              con pasión y tostado artesanalmente para deleitar tu paladar.
-            </motion.p>
-            <motion.div variants={fadeInUp} className="mt-8 sm:mt-12">
-              <a
-                href="#productos"
-                className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gold text-coffee-dark font-semibold rounded-lg hover:bg-gold-light active:bg-gold-dark transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
-              >
-                Ver Productos
-              </a>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      </section>
+      <Hero />
 
       {/* Historia Section */}
       <section className="py-12 sm:py-16 md:py-24 lg:py-32 bg-white">
