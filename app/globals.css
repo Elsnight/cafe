@@ -1,30 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  /* Paleta principal - Café/Beige */
-  --coffee-dark: #3d2817;
-  --coffee-medium: #6b4423;
-  --coffee-light: #8b6f47;
-  --beige-cream: #f5f1e8;
-  --beige-warm: #e8ddd4;
-  --beige-medium: #d4c4b0;
+  /* ============================================
+     PALETA DE COLORES PREMIUM - CAFÉ ARTESANAL
+     ============================================ */
   
-  /* Acentos - Oliva/Dorado */
-  --olive-dark: #5a6b3a;
-  --olive-medium: #7a8c5a;
-  --olive-light: #9aac7a;
-  --gold: #d4af37;
-  --gold-light: #e5c158;
-  --gold-dark: #b8941f;
+  /* Colores principales - Marrones Café */
+  --coffee-dark: #3d2817;        /* Marrón Café Oscuro - Títulos principales */
+  --coffee-medium: #6b4423;      /* Marrón Café Medio - Subtítulos y texto destacado */
+  --coffee-light: #8b6f47;        /* Marrón Café Claro - Acentos suaves */
+  
+  /* Colores base - Beige/Crema */
+  --beige-cream: #f5f1e8;        /* Crema/Beige - Fondo principal */
+  --beige-warm: #e8ddd4;         /* Beige cálido - Fondos secundarios */
+  --beige-medium: #d4c4b0;       /* Beige medio - Bordes y separadores */
+  
+  /* Acentos - Dorado/Ocre */
+  --gold: #d4af37;               /* Dorado/Ocre - Acento principal (CTAs, highlights) */
+  --gold-light: #e5c158;         /* Dorado claro - Hover states */
+  --gold-dark: #b8941f;          /* Dorado oscuro - Estados activos */
+  
+  /* Contraste - Verde Oscuro Terroso */
+  --olive-dark: #5a6b3a;         /* Verde Oscuro Terroso - Contraste y fondos oscuros */
+  --olive-medium: #7a8c5a;       /* Verde medio - Variaciones */
+  --olive-light: #9aac7a;        /* Verde claro - Variaciones */
   
   /* Neutros */
-  --white: #ffffff;
-  --black: #1a1a1a;
-  --gray-light: #f8f8f8;
-  --gray-medium: #e5e5e5;
-  --gray-dark: #6b6b6b;
+  --white: #ffffff;              /* Blanco puro */
+  --black: #1a1a1a;              /* Negro suave */
+  --gray-light: #f8f8f8;         /* Gris muy claro */
+  --gray-medium: #e5e5e5;        /* Gris medio */
+  --gray-dark: #6b6b6b;          /* Gris oscuro - Texto secundario */
   
-  /* Backgrounds y foregrounds */
+  /* ============================================
+     SEMÁNTICA DE COLORES PARA COMPONENTES
+     ============================================ */
   --background: var(--beige-cream);
   --foreground: var(--coffee-dark);
   --muted: var(--beige-warm);
@@ -34,9 +44,11 @@
   --border: var(--beige-medium);
   --ring: var(--gold);
   
-  /* Tipografías */
-  --font-serif: var(--font-serif);
-  --font-sans: var(--font-sans);
+  /* ============================================
+     TIPOGRAFÍAS
+     ============================================ */
+  --font-serif: var(--font-serif);  /* Playfair Display - Títulos elegantes */
+  --font-sans: var(--font-sans);     /* Inter - Texto cuerpo limpio */
 }
 
 @theme inline {
@@ -285,6 +297,241 @@ button:focus-visible {
   border-radius: 0.25rem;
 }
 
+/* ============================================
+   CLASES UTILITARIAS PARA SECCIONES
+   ============================================ */
+
+/* Sección con fondo blanco */
+.section-white {
+  background: var(--white);
+  padding: 4rem 0;
+}
+
+/* Sección con fondo beige */
+.section-beige {
+  background: var(--beige-cream);
+  padding: 4rem 0;
+}
+
+/* Sección con fondo café oscuro */
+.section-coffee-dark {
+  background: var(--coffee-dark);
+  color: var(--white);
+  padding: 4rem 0;
+}
+
+/* Sección con fondo verde terroso */
+.section-olive {
+  background: var(--olive-dark);
+  color: var(--white);
+  padding: 4rem 0;
+}
+
+/* Container con padding responsive */
+.container-section {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+/* ============================================
+   CLASES PARA TIPOGRAFÍA PREMIUM
+   ============================================ */
+
+/* Subtítulo pequeño en uppercase */
+.subtitle-small {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-dark);
+  margin-bottom: 0.5rem;
+}
+
+/* Subtítulo grande */
+.subtitle-large {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gray-dark);
+  margin-bottom: 1rem;
+}
+
+/* Título con decoración */
+.title-decorated {
+  position: relative;
+  display: inline-block;
+  padding: 0 2rem;
+}
+
+.title-decorated::before,
+.title-decorated::after {
+  content: "☕";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  opacity: 0.3;
+}
+
+.title-decorated::before {
+  left: 0;
+}
+
+.title-decorated::after {
+  right: 0;
+}
+
+/* ============================================
+   CLASES PARA BOTONES PREMIUM
+   ============================================ */
+
+/* Botón CTA principal dorado */
+.btn-cta-primary {
+  background: var(--gold);
+  color: var(--coffee-dark);
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.btn-cta-primary:hover:not(:disabled) {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.btn-cta-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+/* Botón secundario outline */
+.btn-cta-secondary {
+  background: transparent;
+  color: var(--coffee-dark);
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--coffee-dark);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.btn-cta-secondary:hover:not(:disabled) {
+  background: var(--coffee-dark);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(61, 40, 23, 0.3);
+}
+
+/* ============================================
+   CLASES PARA TARJETAS DE PRODUCTOS
+   ============================================ */
+
+.card-product {
+  background: var(--white);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-product:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Etiquetas de producto */
+.product-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.product-badge-new {
+  background: var(--gold);
+  color: var(--coffee-dark);
+}
+
+.product-badge-sale {
+  background: #ef4444;
+  color: var(--white);
+}
+
+.product-badge-featured {
+  background: var(--olive-dark);
+  color: var(--white);
+}
+
+/* ============================================
+   CLASES PARA ANIMACIONES Y EFECTOS
+   ============================================ */
+
+/* Fade in up para animaciones de scroll */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Overlay oscuro para hero sections */
+.overlay-dark {
+  position: relative;
+}
+
+.overlay-dark::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(61, 40, 23, 0.6) 0%,
+    rgba(61, 40, 23, 0.8) 100%
+  );
+  z-index: 1;
+}
+
+.overlay-dark > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ============================================
+   MEJORAS DE ACCESIBILIDAD Y UX
+   ============================================ */
+
 /* Smooth scroll para navegación */
 html {
   scroll-behavior: smooth;
@@ -292,11 +539,75 @@ html {
 
 /* Mejoras para touch devices */
 @media (hover: none) and (pointer: coarse) {
-  .card:hover {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  .card:hover,
+  .card-product:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transform: none;
   }
   
-  .card:active {
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
+  .card:active,
+  .card-product:active {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: scale(0.98);
+  }
+  
+  .btn-cta-primary:hover:not(:disabled),
+  .btn-cta-secondary:hover:not(:disabled) {
+    transform: none;
+  }
+  
+  .btn-cta-primary:active:not(:disabled),
+  .btn-cta-secondary:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MEJORAS ADICIONALES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .section-white,
+  .section-beige,
+  .section-coffee-dark,
+  .section-olive {
+    padding: 2.5rem 0;
+  }
+  
+  .container-section {
+    --container-padding: 1rem;
+  }
+  
+  .title-decorated {
+    padding: 0 1.5rem;
+  }
+  
+  .title-decorated::before,
+  .title-decorated::after {
+    font-size: 1.25rem;
+  }
+  
+  .btn-cta-primary,
+  .btn-cta-secondary {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .section-white,
+  .section-beige,
+  .section-coffee-dark,
+  .section-olive {
+    padding: 2rem 0;
+  }
+  
+  .title-decorated {
+    padding: 0 1rem;
+  }
+  
+  .title-decorated::before,
+  .title-decorated::after {
+    display: none; /* Ocultar decoración en móviles muy pequeños */
   }
 }

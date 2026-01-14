@@ -8,6 +8,7 @@ import About from "./components/About";
 import Features from "./components/Features";
 import Products from "./components/Products";
 import CTA from "./components/CTA";
+import Footer from "./components/Footer";
 
 const presentaciones = ["Molido", "Grano entero"];
 const tipos = ["Caturra", "Typica", "Blend Premium"];
@@ -533,6 +534,9 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
           </motion.div>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
