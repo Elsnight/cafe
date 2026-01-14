@@ -205,7 +205,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
 
           <motion.form 
             onSubmit={handleSubmit} 
-            className="space-y-4 sm:space-y-6"
+            className="space-y-4 sm:space-y-5 md:space-y-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -229,7 +229,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
               <h3 className="text-lg sm:text-xl font-serif font-semibold mb-4 sm:mb-6 text-coffee-dark">
                 Selecciona tu Café
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <motion.div variants={fadeIn}>
                   <label className="block text-sm font-medium mb-2 text-coffee-medium">
                     Presentación *

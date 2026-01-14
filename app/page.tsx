@@ -106,7 +106,7 @@ export default function Home() {
                   transition: { duration: 0.3 } 
                 }}
                 whileTap={{ y: -2 }}
-                className="text-center p-5 sm:p-6 bg-olive-medium rounded-lg hover:bg-olive-light transition-colors duration-200"
+                className="text-center p-4 sm:p-5 md:p-6 bg-olive-medium rounded-lg hover:bg-olive-light transition-colors duration-200"
               >
                 <motion.div 
                   className="text-4xl sm:text-5xl mb-3 sm:mb-4"

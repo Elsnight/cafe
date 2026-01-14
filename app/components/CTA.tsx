@@ -59,7 +59,7 @@ export default function CTA() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-0 min-h-[500px] lg:min-h-[600px]"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-0 min-h-[400px] sm:min-h-[500px] md:min-h-[550px] lg:min-h-[600px]"
         >
           {/* Bloque izquierdo (visual) */}
           <motion.div
@@ -67,12 +67,12 @@ export default function CTA() {
             className="relative order-2 lg:order-1 overflow-hidden"
           >
             {/* Franja vertical con texto girado */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-24 md:w-28 lg:w-32 z-10 bg-gold flex items-center justify-center">
+            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32 z-10 bg-gold flex items-center justify-center">
               <motion.div
                 variants={fadeIn}
                 className="transform -rotate-90 whitespace-nowrap"
               >
-                <span className="text-coffee-dark font-serif font-bold text-sm sm:text-base md:text-lg lg:text-xl tracking-wider">
+                <span className="text-coffee-dark font-serif font-bold text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl tracking-wider">
                   2000+ CLIENTES SATISFECHOS
                 </span>
               </motion.div>
@@ -80,7 +80,7 @@ export default function CTA() {
 
             {/* Imagen de fondo */}
             <motion.div 
-              className="relative h-[400px] sm:h-[500px] lg:h-full ml-20 sm:ml-24 md:ml-28 lg:ml-32"
+              className="relative h-[400px] sm:h-[500px] lg:h-full ml-16 sm:ml-20 md:ml-24 lg:ml-28 xl:ml-32"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.5 }}
             >
@@ -99,7 +99,7 @@ export default function CTA() {
           {/* Bloque derecho (texto) */}
           <motion.div
             variants={slideInRight}
-            className="relative order-1 lg:order-2 bg-olive-dark text-white flex items-center justify-center p-8 sm:p-12 md:p-16 lg:p-20"
+            className="relative order-1 lg:order-2 bg-olive-dark text-white flex items-center justify-center p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20"
           >
             <div className="max-w-lg space-y-6 sm:space-y-8">
               {/* Subtítulo */}

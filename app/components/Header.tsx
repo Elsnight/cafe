@@ -36,7 +36,7 @@ export default function Header() {
       }`}
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-14 sm:h-16 md:h-20">
           {/* Logo */}
           <motion.a
             href="#home"
@@ -67,7 +67,7 @@ export default function Header() {
               </svg>
             </div>
             <span
-              className={`font-serif text-xl md:text-2xl font-bold transition-colors duration-300 ${
+              className={`font-serif text-lg sm:text-xl md:text-2xl font-bold transition-colors duration-300 ${
                 isScrolled ? "text-coffee-dark" : "text-white"
               }`}
             >

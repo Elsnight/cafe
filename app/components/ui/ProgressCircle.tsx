@@ -21,7 +21,9 @@ export default function ProgressCircle({
   const [animatedPercentage, setAnimatedPercentage] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
-  const radius = (size - strokeWidth) / 2;
+  // Tamaños responsive basados en el tamaño base
+  const responsiveSize = size < 120 ? 100 : size < 144 ? 120 : 144;
+  const radius = (responsiveSize - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (animatedPercentage / 100) * circumference;
 
@@ -48,19 +50,20 @@ export default function ProgressCircle({
 
     return () => clearInterval(timer);
   }, [percentage, isInView]);
-
+  
   return (
-    <div ref={ref} className="flex flex-col items-center">
-      <div className="relative" style={{ width: size, height: size }}>
+    <div ref={ref} className="flex flex-col items-center w-full">
+      <div className="relative w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[144px] md:h-[144px]">
         <svg
-          width={size}
-          height={size}
-          className="transform -rotate-90"
+          width={responsiveSize}
+          height={responsiveSize}
+          className="transform -rotate-90 w-full h-full"
+          viewBox={`0 0 ${responsiveSize} ${responsiveSize}`}
         >
           {/* Círculo de fondo */}
           <circle
-            cx={size / 2}
-            cy={size / 2}
+            cx={responsiveSize / 2}
+            cy={responsiveSize / 2}
             r={radius}
             fill="none"
             stroke="currentColor"
@@ -69,8 +72,8 @@ export default function ProgressCircle({
           />
           {/* Círculo de progreso */}
           <motion.circle
-            cx={size / 2}
-            cy={size / 2}
+            cx={responsiveSize / 2}
+            cy={responsiveSize / 2}
             r={radius}
             fill="none"
             stroke={color}
@@ -91,8 +94,7 @@ export default function ProgressCircle({
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           <motion.span
-            className="font-serif font-bold text-coffee-dark"
-            style={{ fontSize: size * 0.2 }}
+            className="font-serif font-bold text-coffee-dark text-base sm:text-lg md:text-xl"
             key={Math.round(animatedPercentage)}
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
@@ -104,8 +106,7 @@ export default function ProgressCircle({
       </div>
       {/* Etiqueta */}
       <p
-        className="mt-3 text-center font-sans text-sm text-coffee-medium max-w-[140px]"
-        style={{ fontSize: size * 0.12 }}
+        className="mt-2 sm:mt-3 text-center font-sans text-xs sm:text-sm text-coffee-medium max-w-[120px] sm:max-w-[140px]"
       >
         {label}
       </p>

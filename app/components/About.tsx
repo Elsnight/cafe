@@ -132,7 +132,7 @@ export default function About() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center"
         >
           {/* Imagen circular a la izquierda */}
           <motion.div
@@ -140,7 +140,7 @@ export default function About() {
             className="flex justify-center lg:justify-start order-2 lg:order-1"
           >
             <motion.div 
-              className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px]"
+              className="relative w-56 h-56 xs:w-64 xs:h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 xl:w-[500px] xl:h-[500px]"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
@@ -247,20 +247,20 @@ export default function About() {
             {/* Gráficos circulares de progreso */}
             <motion.div
               variants={fadeInUp}
-              className="flex flex-wrap gap-8 sm:gap-12 pt-6 sm:pt-8"
+              className="flex flex-wrap justify-center lg:justify-start gap-6 sm:gap-8 md:gap-10 lg:gap-12 pt-6 sm:pt-8"
             >
               <ProgressCircle
                 percentage={100}
                 label="Café de Especialidad"
-                size={144}
-                strokeWidth={8}
+                size={100}
+                strokeWidth={6}
                 color="#5a6b3a"
               />
               <ProgressCircle
                 percentage={95}
                 label="Satisfacción del Cliente"
-                size={144}
-                strokeWidth={8}
+                size={100}
+                strokeWidth={6}
                 color="#5a6b3a"
               />
             </motion.div>

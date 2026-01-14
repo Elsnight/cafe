@@ -109,7 +109,7 @@ export default function Products() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto"
         >
           {products.map((product) => (
             <motion.div
@@ -120,7 +120,7 @@ export default function Products() {
               className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-beige-medium group"
             >
               {/* Imagen del producto */}
-              <div className="relative w-full h-48 sm:h-56 md:h-64 overflow-hidden">
+              <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-64 overflow-hidden">
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}

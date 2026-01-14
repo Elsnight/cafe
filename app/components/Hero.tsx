@@ -84,11 +84,11 @@ export default function Hero() {
         className="relative z-10 h-full flex items-center justify-center"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
+          <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10 px-4">
             {/* Subtítulo */}
             <motion.p
               variants={fadeInUp}
-              className="text-sm sm:text-base md:text-lg uppercase tracking-wider text-gray-300 font-sans font-medium"
+              className="text-xs sm:text-sm md:text-base lg:text-lg uppercase tracking-wider text-gray-300 font-sans font-medium"
             >
               BIENVENIDO A FAUSTO&apos;S COFFEE
             </motion.p>
@@ -96,20 +96,20 @@ export default function Hero() {
             {/* Título con decoración de granos */}
             <motion.div
               variants={fadeIn}
-              className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8"
+              className="flex items-center justify-center gap-2 sm:gap-4 md:gap-6 lg:gap-8"
             >
               {/* Grano decorativo izquierdo */}
               <motion.div
                 variants={scaleIn}
-                className="hidden sm:block"
+                className="hidden md:block flex-shrink-0"
               >
                 <svg
-                  width="48"
-                  height="48"
+                  width="32"
+                  height="32"
                   viewBox="0 0 48 48"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-gold"
+                  className="text-gold md:w-10 md:h-10 lg:w-12 lg:h-12"
                 >
                   <path
                     d="M24 6C18 6 14 10 14 16C14 19 15.5 21.5 17.3 23.3C17.1 24.2 17 25.1 17 26C17 29.3 19.7 32 23 32H25C28.3 32 31 29.3 31 26C31 25.1 30.9 24.2 30.7 23.3C32.5 21.5 34 19 34 16C34 10 30 6 24 6Z"
@@ -127,7 +127,7 @@ export default function Hero() {
               {/* Título principal */}
               <motion.h1
                 variants={fadeInUp}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif font-bold text-white leading-tight px-4"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-serif font-bold text-white leading-[1.1] sm:leading-tight"
               >
                 Café Artesanal de Origen Selecto
               </motion.h1>
@@ -135,15 +135,15 @@ export default function Hero() {
               {/* Grano decorativo derecho */}
               <motion.div
                 variants={scaleIn}
-                className="hidden sm:block"
+                className="hidden md:block flex-shrink-0"
               >
                 <svg
-                  width="48"
-                  height="48"
+                  width="32"
+                  height="32"
                   viewBox="0 0 48 48"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-gold"
+                  className="text-gold md:w-10 md:h-10 lg:w-12 lg:h-12"
                 >
                   <path
                     d="M24 6C18 6 14 10 14 16C14 19 15.5 21.5 17.3 23.3C17.1 24.2 17 25.1 17 26C17 29.3 19.7 32 23 32H25C28.3 32 31 29.3 31 26C31 25.1 30.9 24.2 30.7 23.3C32.5 21.5 34 19 34 16C34 10 30 6 24 6Z"
@@ -162,7 +162,7 @@ export default function Hero() {
             {/* Botón CTA */}
             <motion.div
               variants={fadeInUp}
-              className="pt-4 sm:pt-6"
+              className="pt-2 sm:pt-4 md:pt-6"
             >
               <motion.a
                 href="#productos"
@@ -171,7 +171,7 @@ export default function Hero() {
                   boxShadow: "0 10px 30px rgba(212, 175, 55, 0.4)"
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-block px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 bg-gold text-coffee-dark font-serif font-semibold text-lg sm:text-xl md:text-2xl rounded-lg hover:bg-gold-light active:bg-gold-dark transition-all duration-300 shadow-lg hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-light"
+                className="inline-block px-6 sm:px-8 md:px-10 lg:px-12 py-3 sm:py-4 md:py-5 lg:py-6 bg-gold text-coffee-dark font-serif font-semibold text-base sm:text-lg md:text-xl lg:text-2xl rounded-lg hover:bg-gold-light active:bg-gold-dark transition-all duration-300 shadow-lg hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-light"
               >
                 Descubrir Más
               </motion.a>

@@ -287,6 +287,13 @@ h4 {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
+  
+  .section-white,
+  .section-beige,
+  .section-coffee-dark,
+  .section-olive {
+    padding: 1.5rem 0;
+  }
 }
 
 /* Mejoras para accesibilidad - estados focus visibles */
