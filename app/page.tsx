@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import About from "./components/About";
 
 // Datos mock de productos
 const productos = [
@@ -203,38 +204,8 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
       {/* Hero Section */}
       <Hero />
 
-      {/* Historia Section */}
-      <section className="py-12 sm:py-16 md:py-24 lg:py-32 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-            className="max-w-4xl mx-auto"
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-center mb-6 sm:mb-8 text-coffee-dark px-4">
-              Nuestra Historia
-            </h2>
-            <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-coffee-medium leading-relaxed px-4">
-              <p>
-                En Fausto&apos;s Coffee, cada grano cuenta una historia. Desde
-                las montañas donde se cultiva hasta tu taza, cuidamos cada
-                detalle del proceso para ofrecerte una experiencia única.
-              </p>
-              <p>
-                Nuestro compromiso es con la calidad y la sostenibilidad.
-                Trabajamos directamente con productores locales, asegurando
-                condiciones justas y un café de la más alta calidad.
-              </p>
-              <p className="font-serif italic text-coffee-light text-lg sm:text-xl mt-6 sm:mt-8">
-                &quot;El café no es solo una bebida, es un ritual, un momento
-                de conexión con uno mismo y con los demás.&quot;
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* About Section */}
+      <About />
 
       {/* Productos Section */}
       <section
