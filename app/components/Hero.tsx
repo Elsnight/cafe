@@ -127,7 +127,7 @@ export default function Hero() {
               {/* Título principal */}
               <motion.h1
                 variants={fadeInUp}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-serif font-bold text-white leading-[1.1] sm:leading-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-serif font-bold !text-white leading-[1.1] sm:leading-tight"
               >
                 Café Artesanal de Origen Selecto
               </motion.h1>
@@ -166,12 +166,12 @@ export default function Hero() {
             >
               <motion.a
                 href="#productos"
-                whileHover={{ 
+                whileHover={{
                   scale: 1.05,
                   boxShadow: "0 10px 30px rgba(212, 175, 55, 0.4)"
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-block px-6 sm:px-8 md:px-10 lg:px-12 py-3 sm:py-4 md:py-5 lg:py-6 bg-gold text-coffee-dark font-serif font-semibold text-base sm:text-lg md:text-xl lg:text-2xl rounded-lg hover:bg-gold-light active:bg-gold-dark transition-all duration-300 shadow-lg hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-light"
+                className="inline-block px-6 sm:px-8 md:px-10 lg:px-12 py-3 sm:py-4 md:py-5 lg:py-6 bg-gold !text-white font-serif font-semibold text-base sm:text-lg md:text-xl lg:text-2xl rounded-lg hover:bg-gold-light active:bg-gold-dark transition-all duration-300 shadow-lg hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-light"
               >
                 Descubrir Más
               </motion.a>

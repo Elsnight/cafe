@@ -1,9 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  // Exportación estática para GitHub Pages
+  output: "export",
+  // Deshabilitar trailing slash para URLs limpias
+  trailingSlash: true,
   images: {
+    // Deshabilitar optimización de imágenes (no soportado en GitHub Pages)
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
