@@ -32,7 +32,8 @@ export default function Products() {
       description:
         "Granos seleccionados de origen único, tostados artesanalmente para preservar sus notas características y aroma intenso.",
       price: "$24.99",
-      image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.02.25 PM.jpeg",
+      image: "/Bolsa_cafe.png",
+      imageFit: "contain" as const,
       label: "Destacado",
       labelType: "featured" as const,
     },
@@ -42,7 +43,8 @@ export default function Products() {
       description:
         "Café molido fresco, listo para preparar. Disponible en diferentes niveles de molienda según tu método de preparación preferido.",
       price: "$22.99",
-      image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.02.26 PM (1).jpeg",
+      image: "/Bolsa_cafe_dos.png",
+      imageFit: "contain" as const,
       label: "Nuevo",
       labelType: "new" as const,
     },
@@ -52,7 +54,8 @@ export default function Products() {
       description:
         "Mezclas exclusivas creadas por nuestro maestro tostador. Combinaciones perfectas de diferentes orígenes para sabores únicos.",
       price: "$26.99",
-      image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.02.26 PM (2).jpeg",
+      image: "/Bolsa_cafe.png",
+      imageFit: "contain" as const,
       label: null,
       labelType: null,
     },
@@ -63,6 +66,7 @@ export default function Products() {
         "Completa tu experiencia cafetera con nuestros accesorios seleccionados: molinillos, prensas francesas y más.",
       price: "$19.99",
       image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.05.02 PM.jpeg",
+      imageFit: "cover" as const,
       label: "Oferta",
       labelType: "sale" as const,
     },
@@ -130,7 +134,11 @@ export default function Products() {
                     src={product.image}
                     alt={product.title}
                     fill
-                    className="object-cover"
+                    className={
+                      product.imageFit === "contain"
+                        ? "object-contain bg-beige-cream p-3"
+                        : "object-cover"
+                    }
                     quality={90}
                   />
                 </motion.div>
