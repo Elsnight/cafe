@@ -30,9 +30,7 @@ export default function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: [0, 0, 0.58, 1] as const }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md"
-          : "bg-transparent"
+        isScrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-transparent"
       }`}
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -171,9 +169,7 @@ export default function Header() {
           <motion.button
             aria-label="Menú"
             className={`md:hidden p-2 rounded-lg transition-colors duration-300 ${
-              isScrolled
-                ? "text-coffee-dark"
-                : "text-white"
+              isScrolled ? "text-coffee-dark" : "text-white"
             }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileTap={{ scale: 0.9 }}
@@ -224,7 +220,7 @@ export default function Header() {
           transition={{ duration: 0.3 }}
           className="md:hidden overflow-hidden"
         >
-          <motion.div 
+          <motion.div
             className="py-4 space-y-2"
             initial="hidden"
             animate={isMobileMenuOpen ? "visible" : "hidden"}
@@ -259,7 +255,7 @@ export default function Header() {
                 {item.label}
               </motion.a>
             ))}
-            <motion.div 
+            <motion.div
               className="flex items-center space-x-4 pt-2 px-4"
               initial="hidden"
               animate={isMobileMenuOpen ? "visible" : "hidden"}
@@ -340,7 +336,7 @@ export default function Header() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <motion.span 
+                <motion.span
                   className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-coffee-dark text-xs font-bold rounded-full flex items-center justify-center"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}

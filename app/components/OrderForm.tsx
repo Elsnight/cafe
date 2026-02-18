@@ -1,7 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCart } from "@/app/providers/CartProvider";
+import { formatMoney } from "@/lib/pricing/money";
+import { calculateOrderTotals } from "@/lib/pricing/pricing";
+import type { DeliveryDayType } from "@/lib/pricing/types";
+import { browserLocalStorage } from "@/lib/adapters/keyValueStorage";
+import { createWhatsAppOrderSubmitter } from "@/lib/adapters/orderSubmitter";
 
 // Iconos SVG inline
 const CoffeeGrindIcon = () => (
@@ -15,13 +21,6 @@ const CoffeeBeanIcon = () => (
   <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
     <ellipse cx="12" cy="12" rx="6" ry="9" />
     <path d="M12 3c-2 3-2 6 0 9s2 6 0 9" />
-  </svg>
-);
-
-const FireLightIcon = () => (
-  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M12 22c3.5 0 6-2.5 6-6 0-2-1-4-2-5.5-.5-.75-1-1.5-1-2.5 0-1.5.5-3 1-4-2 1-4 3-4 5.5 0 1-.5 2-1.5 2.5S8 13 8 14c0 1 .5 2 1.5 2.5" />
-    <path d="M12 22c-1.5 0-3-1-3-3 0-1.5 1.5-3 3-3s3 1.5 3 3c0 2-1.5 3-3 3z" />
   </svg>
 );
 
@@ -86,19 +85,117 @@ interface CoffeeOption {
   icon: React.ReactNode;
 }
 
+function OptionCard({
+  option,
+  isSelected,
+  onClick,
+  hasError,
+}: {
+  option: CoffeeOption;
+  isSelected: boolean;
+  onClick: () => void;
+  hasError?: boolean;
+}) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      whileHover={{ scale: 1.02, y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      className={`
+        relative w-full p-4 sm:p-5 rounded-xl border-2 text-left transition-all duration-300
+        ${
+          isSelected
+            ? "border-gold bg-gold/10 shadow-lg shadow-gold/20"
+            : hasError
+              ? "border-red-300 bg-white hover:border-red-400"
+              : "border-beige-medium bg-white hover:border-coffee-light hover:shadow-md"
+        }
+      `}
+    >
+      {isSelected && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="absolute top-3 right-3 w-6 h-6 bg-gold rounded-full flex items-center justify-center"
+        >
+          <CheckIcon />
+        </motion.div>
+      )}
+      <div className={`mb-3 ${isSelected ? "text-gold" : "text-coffee-medium"}`}>{option.icon}</div>
+      <h4
+        className={`font-semibold text-base sm:text-lg ${
+          isSelected ? "text-coffee-dark" : "text-coffee-medium"
+        }`}
+      >
+        {option.label}
+      </h4>
+      <p className="text-sm text-coffee-light mt-1">{option.description}</p>
+    </motion.button>
+  );
+}
+
+function InputWithIcon({
+  icon,
+  label,
+  name,
+  type = "text",
+  placeholder,
+  value,
+  onChange,
+  error,
+  required,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  name: string;
+  type?: string;
+  placeholder?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+  required?: boolean;
+}) {
+  return (
+    <div className="space-y-2">
+      <label className="flex items-center gap-2 text-sm font-medium text-coffee-medium">
+        <span className="text-coffee-light">{icon}</span>
+        {label} {required && <span className="text-gold">*</span>}
+      </label>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`
+          input w-full pl-4 py-3 rounded-xl transition-all duration-300
+          ${error ? "border-red-400 focus:border-red-500 focus:ring-red-200" : "focus:border-gold focus:ring-gold/20"}
+        `}
+      />
+      {error && (
+        <motion.p
+          initial={{ opacity: 0, y: -5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-sm text-red-500 flex items-center gap-1"
+        >
+          {error}
+        </motion.p>
+      )}
+    </div>
+  );
+}
+
 const presentaciones: CoffeeOption[] = [
   { id: "Molido", label: "Molido", description: "Listo para preparar", icon: <CoffeeGrindIcon /> },
-  { id: "Grano entero", label: "Grano Entero", description: "Para moler fresco", icon: <CoffeeBeanIcon /> },
+  { id: "Grano", label: "Grano", description: "Para moler fresco", icon: <CoffeeBeanIcon /> },
 ];
 
 const tipos: CoffeeOption[] = [
-  { id: "Caturra", label: "Caturra", description: "Sabor dulce y afrutado", icon: <CoffeeBeanIcon /> },
   { id: "Typica", label: "Typica", description: "Clásico y balanceado", icon: <CoffeeBeanIcon /> },
-  { id: "Blend Premium", label: "Blend Premium", description: "Mezcla exclusiva", icon: <CoffeeBeanIcon /> },
 ];
 
 const tuestes: CoffeeOption[] = [
-  { id: "Suave", label: "Suave", description: "Notas florales y ácidas", icon: <FireLightIcon /> },
   { id: "Medio", label: "Medio", description: "Equilibrio perfecto", icon: <FireMediumIcon /> },
   { id: "Oscuro", label: "Oscuro", description: "Intenso y robusto", icon: <FireDarkIcon /> },
 ];
@@ -110,40 +207,59 @@ const steps = [
 ];
 
 export default function OrderForm() {
+  const { items: cartItems } = useCart();
+  const orderSubmitter = useMemo(
+    () => createWhatsAppOrderSubmitter({ phoneE164: "593996436622", openTarget: "_blank" }),
+    []
+  );
+  const draftStorage = useMemo(() => browserLocalStorage(), []);
   const [currentStep, setCurrentStep] = useState(1);
+  const [postSubmitInfo, setPostSubmitInfo] = useState<string | null>(null);
+  const [pendingWhatsAppMessage, setPendingWhatsAppMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     presentacion: "",
-    tipo: "",
+    tipo: "Typica",
     tueste: "",
     nombre: "",
     telefono: "",
     email: "",
     direccion: "",
     sector: "",
+    deliveryDayType: "weekday" as DeliveryDayType,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const totalsForUI =
+    cartItems.length > 0
+      ? calculateOrderTotals({
+          cartItems,
+          deliveryDayType: formData.deliveryDayType,
+        })
+      : null;
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: "" });
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => (prev[name] ? { ...prev, [name]: "" } : prev));
   };
 
   const handleOptionSelect = (field: string, value: string) => {
-    setFormData({ ...formData, [field]: value });
-    if (errors[field]) {
-      setErrors({ ...errors, [field]: "" });
-    }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
   };
 
   const validateForm = (): { isValid: boolean; errors: Record<string, string> } => {
     const newErrors: Record<string, string> = {};
+
+    // Debe haber al menos un producto seleccionado (qty > 0)
+    const hasSelectedProduct = cartItems.some((x) => Number.isFinite(x.qty) && x.qty > 0);
+    if (!hasSelectedProduct) {
+      newErrors.submit = "Agrega al menos un producto al carrito antes de enviar el pedido.";
+    }
 
     // Validar campos requeridos
     if (!formData.presentacion.trim()) {
@@ -157,6 +273,11 @@ export default function OrderForm() {
     }
     if (!formData.nombre.trim()) {
       newErrors.nombre = "Por favor ingresa tu nombre completo";
+    } else {
+      const nameRegex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
+      if (!nameRegex.test(formData.nombre.trim())) {
+        newErrors.nombre = "El nombre solo debe contener letras y espacios";
+      }
     }
     if (!formData.direccion.trim()) {
       newErrors.direccion = "Por favor ingresa tu dirección";
@@ -179,11 +300,11 @@ export default function OrderForm() {
       }
     }
 
-    // Validar formato de teléfono si está presente (mínimo 7 dígitos)
+    // Validar teléfono: solo números (7 a 15 dígitos)
     if (formData.telefono.trim()) {
-      const phoneRegex = /^[\d\s\-\+\(\)]{7,}$/;
-      if (!phoneRegex.test(formData.telefono.replace(/\s/g, ""))) {
-        newErrors.telefono = "Por favor ingresa un teléfono válido (mínimo 7 dígitos)";
+      const phoneRegex = /^\d{7,15}$/;
+      if (!phoneRegex.test(formData.telefono.trim())) {
+        newErrors.telefono = "El teléfono debe tener solo números (7 a 15 dígitos)";
       }
     }
 
@@ -195,13 +316,12 @@ export default function OrderForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setPostSubmitInfo(null);
 
     // Validar formulario
     const validation = validateForm();
     if (!validation.isValid) {
       setErrors(validation.errors);
-      setIsSubmitting(false);
       // Scroll al primer error después de un pequeño delay para que el DOM se actualice
       setTimeout(() => {
         const firstErrorField = Object.keys(validation.errors)[0];
@@ -220,6 +340,52 @@ export default function OrderForm() {
     setErrors({});
 
     try {
+      setIsSubmitting(true);
+      const hasCart = cartItems.length > 0;
+      const totals = hasCart
+        ? calculateOrderTotals({
+            cartItems,
+            deliveryDayType: formData.deliveryDayType,
+          })
+        : null;
+
+      const deliveryLabel =
+        formData.deliveryDayType === "weekend" ? "Fin de semana" : "Entre semana (Lun–Vie)";
+
+      const cartLines = totals
+        ? cartItems
+            .filter((x) => Number.isFinite(x.qty) && x.qty > 0)
+            .map((x) => `• ${x.qty}× ${x.size}g`)
+            .join("\n")
+        : "";
+
+      const promoLines =
+        totals && totals.appliedPromos.length > 0
+          ? totals.appliedPromos
+              .map((p) => {
+                if (p.bundleCount && p.bundleQty && p.bundlePrice) {
+                  return `• ${p.label}: ${p.bundleCount}× (pack de ${p.bundleQty})`;
+                }
+                return `• ${p.label}`;
+              })
+              .join("\n")
+          : "";
+
+      const resumenTotales = totals
+        ? `🧾 Resumen del pedido:
+${cartLines}
+
+${promoLines ? `🏷️ Promos aplicadas:\n${promoLines}\n\n` : ""}Subtotal normal: ${formatMoney(
+            totals.normalSubtotal
+          )}
+Subtotal con promo: ${formatMoney(totals.promoSubtotal)}
+Envío: ${formatMoney(totals.shipping)}
+Descuento: ${formatMoney(totals.discountTotal)}
+Total: ${formatMoney(totals.total)}
+
+`
+        : "";
+
       // Formatear mensaje para WhatsApp
       const mensaje = `¡Hola! Me interesa hacer un pedido de café:
 
@@ -227,8 +393,9 @@ export default function OrderForm() {
 • Presentación: ${formData.presentacion}
 • Tipo: ${formData.tipo}
 • Tueste: ${formData.tueste}
+• Día de entrega: ${deliveryLabel}
 
-👤 Datos de contacto:
+${resumenTotales}👤 Datos de contacto:
 • Nombre: ${formData.nombre}
 ${formData.telefono ? `• Teléfono: ${formData.telefono}` : ""}
 ${formData.email ? `• Email: ${formData.email}` : ""}
@@ -239,21 +406,47 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
 
 ¡Gracias!`;
 
-      // Codificar mensaje para URL
-      const mensajeCodificado = encodeURIComponent(mensaje);
-      const whatsappLink = `https://wa.me/593996436622?text=${mensajeCodificado}`;
+      // Guardar estado local como respaldo (adapter)
+      draftStorage.setItem("pedido_fausto_coffee", JSON.stringify(formData));
 
-      // Guardar estado local como respaldo
-      localStorage.setItem("pedido_fausto_coffee", JSON.stringify(formData));
-
-      // Redirigir a WhatsApp
-      window.open(whatsappLink, "_blank");
+      // Mostrar confirmación antes de abrir WhatsApp
+      setPendingWhatsAppMessage(mensaje);
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
       setErrors({ submit: "Hubo un error al procesar tu pedido. Por favor intenta nuevamente." });
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const confirmOpenWhatsApp = async () => {
+    if (!pendingWhatsAppMessage) return;
+
+    // WhatsApp no envía automáticamente; solo precarga el texto.
+    // Respaldo: copiar al portapapeles antes de navegar.
+    let copied = false;
+    try {
+      if (
+        typeof window !== "undefined" &&
+        window.isSecureContext &&
+        typeof navigator !== "undefined" &&
+        navigator.clipboard?.writeText
+      ) {
+        await navigator.clipboard.writeText(pendingWhatsAppMessage);
+        copied = true;
+      }
+    } catch {
+      // Ignorar si el navegador bloquea clipboard
+    }
+
+    setPostSubmitInfo(
+      copied
+        ? 'Se va a abrir WhatsApp con el mensaje listo. Si no aparece, pégalo (ya está copiado). Luego toca "Enviar" dentro de WhatsApp.'
+        : 'Se va a abrir WhatsApp con el mensaje listo. Luego toca "Enviar" dentro de WhatsApp.'
+    );
+
+    orderSubmitter.submit({ message: pendingWhatsAppMessage });
+    setPendingWhatsAppMessage(null);
   };
 
   const validateStep = (step: number): boolean => {
@@ -265,6 +458,12 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
       if (!formData.tueste) newErrors.tueste = "Selecciona un tueste";
     } else if (step === 2) {
       if (!formData.nombre.trim()) newErrors.nombre = "Ingresa tu nombre";
+      if (formData.nombre.trim()) {
+        const nameRegex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
+        if (!nameRegex.test(formData.nombre.trim())) {
+          newErrors.nombre = "Solo letras y espacios";
+        }
+      }
       if (!formData.telefono.trim() && !formData.email.trim()) {
         newErrors.telefono = "Ingresa al menos un método de contacto";
       }
@@ -272,6 +471,12 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
           newErrors.email = "Email no válido";
+        }
+      }
+      if (formData.telefono.trim()) {
+        const phoneRegex = /^\d{7,15}$/;
+        if (!phoneRegex.test(formData.telefono.trim())) {
+          newErrors.telefono = "Solo números (7 a 15 dígitos)";
         }
       }
     } else if (step === 3) {
@@ -319,103 +524,6 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
       opacity: 0
     })
   };
-
-  const OptionCard = ({
-    option,
-    isSelected,
-    onClick,
-    hasError
-  }: {
-    option: CoffeeOption;
-    isSelected: boolean;
-    onClick: () => void;
-    hasError?: boolean;
-  }) => (
-    <motion.button
-      type="button"
-      onClick={onClick}
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      className={`
-        relative w-full p-4 sm:p-5 rounded-xl border-2 text-left transition-all duration-300
-        ${isSelected
-          ? 'border-gold bg-gold/10 shadow-lg shadow-gold/20'
-          : hasError
-            ? 'border-red-300 bg-white hover:border-red-400'
-            : 'border-beige-medium bg-white hover:border-coffee-light hover:shadow-md'
-        }
-      `}
-    >
-      {isSelected && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="absolute top-3 right-3 w-6 h-6 bg-gold rounded-full flex items-center justify-center"
-        >
-          <CheckIcon />
-        </motion.div>
-      )}
-      <div className={`mb-3 ${isSelected ? 'text-gold' : 'text-coffee-medium'}`}>
-        {option.icon}
-      </div>
-      <h4 className={`font-semibold text-base sm:text-lg ${isSelected ? 'text-coffee-dark' : 'text-coffee-medium'}`}>
-        {option.label}
-      </h4>
-      <p className="text-sm text-coffee-light mt-1">{option.description}</p>
-    </motion.button>
-  );
-
-  const InputWithIcon = ({
-    icon,
-    label,
-    name,
-    type = "text",
-    placeholder,
-    value,
-    onChange,
-    error,
-    required
-  }: {
-    icon: React.ReactNode;
-    label: string;
-    name: string;
-    type?: string;
-    placeholder?: string;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    error?: string;
-    required?: boolean;
-  }) => (
-    <div className="space-y-2">
-      <label className="flex items-center gap-2 text-sm font-medium text-coffee-medium">
-        <span className="text-coffee-light">{icon}</span>
-        {label} {required && <span className="text-gold">*</span>}
-      </label>
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className={`
-          input w-full pl-4 py-3 rounded-xl transition-all duration-300
-          ${error
-            ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
-            : 'focus:border-gold focus:ring-gold/20'
-          }
-        `}
-      />
-      {error && (
-        <motion.p
-          initial={{ opacity: 0, y: -5 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-sm text-red-500 flex items-center gap-1"
-        >
-          {error}
-        </motion.p>
-      )}
-    </div>
-  );
 
   return (
     <section
@@ -505,6 +613,90 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
               >
                 {errors.submit}
               </motion.div>
+            )}
+
+            {postSubmitInfo && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800"
+              >
+                {postSubmitInfo}
+              </motion.div>
+            )}
+
+            {pendingWhatsAppMessage && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div
+                  className="absolute inset-0 bg-black/50"
+                  onClick={() => setPendingWhatsAppMessage(null)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-beige-medium p-6 sm:p-7"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Confirmación de WhatsApp"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h4 className="text-xl font-serif font-semibold text-coffee-dark">
+                        Se abrirá WhatsApp
+                      </h4>
+                      <p className="mt-2 text-sm text-coffee-medium">
+                        Al continuar, se abrirá WhatsApp/WhatsApp Web con el mensaje precargado. Luego debes tocar{" "}
+                        <span className="font-semibold">Enviar</span> dentro de WhatsApp.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setPendingWhatsAppMessage(null)}
+                      className="shrink-0 px-3 py-2 rounded-lg text-coffee-medium hover:bg-beige-cream transition"
+                      aria-label="Cerrar"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <div className="mt-4">
+                    <label className="block text-xs font-semibold text-coffee-light uppercase tracking-wide mb-2">
+                      Mensaje a enviar
+                    </label>
+                    <textarea
+                      readOnly
+                      value={pendingWhatsAppMessage}
+                      className="w-full h-44 sm:h-52 rounded-xl border border-beige-medium bg-beige-cream/30 p-4 text-sm text-coffee-dark leading-relaxed"
+                    />
+                    <p className="mt-2 text-xs text-coffee-light">
+                      Tip: si WhatsApp no pone el texto automáticamente, puedes pegarlo (lo intentaremos copiar antes de
+                      abrir).
+                    </p>
+                  </div>
+
+                  <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-end">
+                    <motion.button
+                      type="button"
+                      onClick={() => setPendingWhatsAppMessage(null)}
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      className="px-6 py-3 rounded-xl border-2 border-coffee-light text-coffee-medium font-semibold hover:bg-beige-cream transition-all duration-300"
+                    >
+                      Cancelar
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      onClick={confirmOpenWhatsApp}
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      className="px-6 py-3 rounded-xl bg-[#25D366] text-white font-semibold hover:bg-[#20BD5A] transition-all duration-300 shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-3"
+                    >
+                      <WhatsAppIcon />
+                      Abrir WhatsApp
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </div>
             )}
 
             <div className="bg-white rounded-2xl shadow-xl shadow-coffee-dark/5 border border-beige-medium/50 p-6 sm:p-8 md:p-10 overflow-hidden">
@@ -691,6 +883,43 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                     </h3>
 
                     <div className="space-y-5">
+                      {/* Día de entrega */}
+                      <div className="space-y-2">
+                        <label className="block text-sm font-semibold text-coffee-medium uppercase tracking-wide">
+                          Día de entrega
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <motion.button
+                            type="button"
+                            onClick={() => setFormData({ ...formData, deliveryDayType: "weekday" })}
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                            className={`p-4 rounded-xl border-2 text-left transition-all duration-300 ${
+                              formData.deliveryDayType === "weekday"
+                                ? "border-gold bg-gold/10 shadow-lg shadow-gold/20"
+                                : "border-beige-medium bg-white hover:border-coffee-light hover:shadow-md"
+                            }`}
+                          >
+                            <div className="font-semibold text-coffee-dark">Entre semana (Lun–Vie)</div>
+                            <div className="text-sm text-coffee-light mt-1">Envío estándar dentro de Quito</div>
+                          </motion.button>
+                          <motion.button
+                            type="button"
+                            onClick={() => setFormData({ ...formData, deliveryDayType: "weekend" })}
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                            className={`p-4 rounded-xl border-2 text-left transition-all duration-300 ${
+                              formData.deliveryDayType === "weekend"
+                                ? "border-gold bg-gold/10 shadow-lg shadow-gold/20"
+                                : "border-beige-medium bg-white hover:border-coffee-light hover:shadow-md"
+                            }`}
+                          >
+                            <div className="font-semibold text-coffee-dark">Fin de semana</div>
+                            <div className="text-sm text-coffee-light mt-1">Promo de envío dentro de Quito</div>
+                          </motion.button>
+                        </div>
+                      </div>
+
                       <InputWithIcon
                         icon={<LocationIcon />}
                         label="Dirección completa"
@@ -716,26 +945,112 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                       {/* Resumen del pedido */}
                       <div className="mt-8 p-5 bg-gradient-to-br from-beige-cream to-beige-warm rounded-xl border border-beige-medium">
                         <h4 className="font-semibold text-coffee-dark mb-3">Resumen de tu pedido</h4>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-coffee-light">Presentación:</span>
-                            <span className="font-medium text-coffee-dark">{formData.presentacion}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-coffee-light">Variedad:</span>
-                            <span className="font-medium text-coffee-dark">{formData.tipo}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-coffee-light">Tueste:</span>
-                            <span className="font-medium text-coffee-dark">{formData.tueste}</span>
-                          </div>
-                          <div className="border-t border-beige-medium my-2 pt-2">
-                            <div className="flex justify-between">
-                              <span className="text-coffee-light">Contacto:</span>
-                              <span className="font-medium text-coffee-dark">{formData.nombre}</span>
+                        {totalsForUI ? (
+                          <div className="space-y-3 text-sm">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">Presentación:</span>
+                                <span className="font-medium text-coffee-dark">{formData.presentacion}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">Tueste:</span>
+                                <span className="font-medium text-coffee-dark">{formData.tueste}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">Variedad:</span>
+                                <span className="font-medium text-coffee-dark">{formData.tipo}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">Entrega:</span>
+                                <span className="font-medium text-coffee-dark">
+                                  {formData.deliveryDayType === "weekend" ? "Fin de semana" : "Entre semana"}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="border-t border-beige-medium pt-3">
+                              <div className="text-coffee-light mb-2">Items:</div>
+                              <div className="space-y-1">
+                                {cartItems
+                                  .filter((x) => Number.isFinite(x.qty) && x.qty > 0)
+                                  .map((x) => (
+                                    <div key={x.id} className="flex justify-between">
+                                      <span className="text-coffee-medium">{x.size}g</span>
+                                      <span className="font-medium text-coffee-dark">× {x.qty}</span>
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+
+                            {totalsForUI.appliedPromos.length > 0 && (
+                              <div className="border-t border-beige-medium pt-3">
+                                <div className="text-coffee-light mb-2">Promos aplicadas:</div>
+                                <div className="space-y-1">
+                                  {totalsForUI.appliedPromos.map((p) => (
+                                    <div key={p.id} className="flex justify-between gap-4">
+                                      <span className="text-coffee-medium">{p.label}</span>
+                                      <span className="font-medium text-coffee-dark">{formatMoney(p.discount)}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            <div className="border-t border-beige-medium pt-3 space-y-1">
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">Subtotal normal:</span>
+                                <span className="font-medium text-coffee-dark">
+                                  {formatMoney(totalsForUI.normalSubtotal)}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">Subtotal con promo:</span>
+                                <span className="font-medium text-coffee-dark">
+                                  {formatMoney(totalsForUI.promoSubtotal)}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">Envío:</span>
+                                <span className="font-medium text-coffee-dark">{formatMoney(totalsForUI.shipping)}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">Descuento:</span>
+                                <span className="font-medium text-coffee-dark">
+                                  {formatMoney(totalsForUI.discountTotal)}
+                                </span>
+                              </div>
+                              <div className="flex justify-between pt-2">
+                                <span className="text-coffee-medium font-semibold">Total:</span>
+                                <span className="text-coffee-dark font-semibold">{formatMoney(totalsForUI.total)}</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        ) : (
+                          <div className="text-sm text-coffee-light space-y-2">
+                            <div className="flex justify-between">
+                              <span className="text-coffee-light">Presentación:</span>
+                              <span className="font-medium text-coffee-dark">{formData.presentacion}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-coffee-light">Variedad:</span>
+                              <span className="font-medium text-coffee-dark">{formData.tipo}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-coffee-light">Tueste:</span>
+                              <span className="font-medium text-coffee-dark">{formData.tueste}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-coffee-light">Entrega:</span>
+                              <span className="font-medium text-coffee-dark">
+                                {formData.deliveryDayType === "weekend" ? "Fin de semana" : "Entre semana"}
+                              </span>
+                            </div>
+                            <div className="border-t border-beige-medium pt-3">
+                              No has agregado productos al carrito. Puedes hacerlo en la sección de productos y volver
+                              a enviar tu pedido.
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </motion.div>
@@ -775,7 +1090,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                     className="order-1 sm:order-2 sm:ml-auto px-8 py-3 bg-[#25D366] text-white font-semibold rounded-xl hover:bg-[#20BD5A] transition-all duration-300 shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <WhatsAppIcon />
-                    {isSubmitting ? "Enviando..." : "Enviar por WhatsApp"}
+                    {isSubmitting ? "Preparando..." : "Enviar por WhatsApp"}
                   </motion.button>
                 )}
               </div>

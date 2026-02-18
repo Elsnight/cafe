@@ -2,8 +2,15 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { PRICING_CONFIG } from "@/lib/pricing/pricing.config";
+import { formatMoney } from "@/lib/pricing/money";
+import { calculateSavings } from "@/lib/pricing/pricing";
+import { useCart } from "@/app/providers/CartProvider";
+import type { PackSize } from "@/lib/pricing/types";
 
 export default function Products() {
+  const { items, addItem } = useCart();
+
   // Variantes de animación
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
@@ -25,52 +32,28 @@ export default function Products() {
     },
   };
 
-  const products = [
-    {
-      id: 1,
-      title: "Café en Grano",
-      description:
-        "Granos seleccionados de origen único, tostados artesanalmente para preservar sus notas características y aroma intenso.",
-      price: "$24.99",
-      image: "/Bolsa_cafe.png",
-      imageFit: "contain" as const,
-      label: "Destacado",
-      labelType: "featured" as const,
-    },
-    {
-      id: 2,
-      title: "Café Molido",
-      description:
-        "Café molido fresco, listo para preparar. Disponible en diferentes niveles de molienda según tu método de preparación preferido.",
-      price: "$22.99",
-      image: "/Bolsa_cafe_dos.png",
-      imageFit: "contain" as const,
-      label: "Nuevo",
-      labelType: "new" as const,
-    },
-    {
-      id: 3,
-      title: "Blends Especiales",
-      description:
-        "Mezclas exclusivas creadas por nuestro maestro tostador. Combinaciones perfectas de diferentes orígenes para sabores únicos.",
-      price: "$26.99",
-      image: "/Bolsa_cafe.png",
-      imageFit: "contain" as const,
-      label: null,
-      labelType: null,
-    },
-    {
-      id: 4,
-      title: "Accesorios Premium",
-      description:
-        "Completa tu experiencia cafetera con nuestros accesorios seleccionados: molinillos, prensas francesas y más.",
-      price: "$19.99",
-      image: "/Imagenes/WhatsApp Image 2026-01-14 at 1.05.02 PM.jpeg",
-      imageFit: "cover" as const,
-      label: "Oferta",
-      labelType: "sale" as const,
-    },
+  const base = PRICING_CONFIG.basePrices;
+  const image = "/Bolsa_cafe.png";
+
+  const packCards: Array<{
+    size: PackSize;
+    title: string;
+    description: string;
+    highlight?: "bestValue";
+  }> = [
+    { size: 100, title: "Bolsa 100g", description: "Ideal para casa y para probar nuevas notas." },
+    { size: 400, title: "Bolsa 400g", description: "Perfecta para oficina o para la semana." },
+    { size: 500, title: "Bolsa 500g", description: "Buen balance entre precio y cantidad." },
+    { size: 1000, title: "Bolsa 1kg", description: "Mejor ahorro por gramo.", highlight: "bestValue" },
   ];
+
+  const duoOriginal = safeNumber(2 * base[500]);
+  const duoPromo = PRICING_CONFIG.promos.duo500.bundlePrice;
+  const duoSavings = calculateSavings(duoOriginal, duoPromo);
+
+  const tastingOriginal = safeNumber(3 * base[100]);
+  const tastingPromo = PRICING_CONFIG.promos.tasting100.bundlePrice;
+  const tastingSavings = calculateSavings(tastingOriginal, tastingPromo);
 
   const getLabelStyles = (type: "featured" | "new" | "sale" | null) => {
     switch (type) {
@@ -84,6 +67,14 @@ export default function Products() {
         return "";
     }
   };
+
+  function safeNumber(n: number): number {
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function cartQtyForSize(size: PackSize): number {
+    return items.reduce((acc, it) => (it.size === size ? acc + (Number.isFinite(it.qty) ? it.qty : 0) : acc), 0);
+  }
 
   return (
     <section
@@ -115,13 +106,20 @@ export default function Products() {
           variants={staggerContainer}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto"
         >
-          {products.map((product) => (
+          {packCards.map((pack) => {
+            const qtyInCart = cartQtyForSize(pack.size);
+            const isBestValue = pack.highlight === "bestValue";
+
+            return (
             <motion.div
-              key={product.id}
+              key={pack.size}
               variants={fadeInUp}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               whileTap={{ y: -4 }}
-              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-beige-medium group"
+              className={[
+                "bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border group",
+                isBestValue ? "border-gold/60 ring-1 ring-gold/30" : "border-beige-medium",
+              ].join(" ")}
             >
               {/* Imagen del producto */}
               <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-64 overflow-hidden">
@@ -131,29 +129,25 @@ export default function Products() {
                   className="w-full h-full"
                 >
                   <Image
-                    src={product.image}
-                    alt={product.title}
+                    src={image}
+                    alt={pack.title}
                     fill
-                    className={
-                      product.imageFit === "contain"
-                        ? "object-contain bg-beige-cream p-3"
-                        : "object-cover"
-                    }
+                    className="object-contain bg-beige-cream p-3"
                     quality={90}
                   />
                 </motion.div>
                 {/* Etiqueta */}
-                {product.label && (
+                {isBestValue && (
                   <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     whileInView={{ scale: 1, rotate: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, ease: [0, 0, 0.58, 1] as const }}
                     className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getLabelStyles(
-                      product.labelType
+                      "featured"
                     )}`}
                   >
-                    {product.label}
+                    Mejor valor
                   </motion.div>
                 )}
               </div>
@@ -162,27 +156,158 @@ export default function Products() {
               <div className="p-5 sm:p-6">
                 {/* Título */}
                 <h3 className="text-xl sm:text-2xl font-serif font-semibold mb-3 text-coffee-dark">
-                  {product.title}
+                  {pack.title}
                 </h3>
 
                 {/* Descripción */}
                 <p className="text-sm sm:text-base text-coffee-medium mb-5 sm:mb-6 leading-relaxed line-clamp-3">
-                  {product.description}
+                  {pack.description}
                 </p>
 
                 {/* Precio y botón */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-beige-medium">
-                  <span className="text-2xl sm:text-3xl font-serif font-bold text-gold-dark">
-                    {product.price}
-                  </span>
-                  <motion.a
-                    href="#pedido"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-full sm:w-auto text-center px-5 py-2.5 bg-gold text-coffee-dark rounded-lg hover:bg-gold-light active:bg-gold-dark transition-all duration-200 text-sm font-medium hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
-                  >
-                    Ver Más
-                  </motion.a>
+                <div className="pt-4 border-t border-beige-medium space-y-3">
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <span className="block text-2xl sm:text-3xl font-serif font-bold text-gold-dark">
+                        {formatMoney(base[pack.size])}
+                      </span>
+                      {qtyInCart > 0 && (
+                        <span className="block text-xs sm:text-sm text-coffee-light mt-1">
+                          En carrito: <span className="font-semibold text-coffee-medium">{qtyInCart}</span>
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-xs sm:text-sm text-coffee-light">{pack.size}g</span>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <motion.button
+                      type="button"
+                      onClick={() => addItem({ size: pack.size, qty: 1 })}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className={[
+                        "w-full sm:w-auto text-center px-5 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2",
+                        isBestValue
+                          ? "bg-gold text-coffee-dark hover:bg-gold-light active:bg-gold-dark focus-visible:outline-gold-light"
+                          : "bg-olive-dark text-white hover:bg-olive-medium active:bg-olive-light focus-visible:outline-olive-light",
+                      ].join(" ")}
+                    >
+                      Agregar
+                    </motion.button>
+                    <motion.a
+                      href="#pedido"
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="w-full sm:w-auto text-center px-5 py-2.5 bg-white border border-beige-medium text-coffee-dark rounded-lg hover:bg-beige-warm active:bg-beige-cream transition-all duration-200 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
+                    >
+                      Ir a pedido
+                    </motion.a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )})}
+
+          {/* Promos */}
+          {[
+            {
+              key: "promo-duo-500",
+              title: "Dúo 500g",
+              text: `Llévate 1 kilo en dos bolsas por solo ${formatMoney(duoPromo)} (ahorras ${formatMoney(
+                duoSavings
+              )})`,
+              original: duoOriginal,
+              promo: duoPromo,
+              onAdd: () => addItem({ size: 500, qty: 2 }),
+              badge: "Promo",
+            },
+            {
+              key: "promo-tasting-100",
+              title: "Pack degustación 3×100g",
+              text: `Prueba 3 moliendas por solo ${formatMoney(tastingPromo)} (ahorras ${formatMoney(
+                tastingSavings
+              )})`,
+              original: tastingOriginal,
+              promo: tastingPromo,
+              onAdd: () => addItem({ size: 100, qty: 3 }),
+              badge: "Promo",
+            },
+          ].map((promo) => (
+            <motion.div
+              key={promo.key}
+              variants={fadeInUp}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              whileTap={{ y: -4 }}
+              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-beige-medium group sm:col-span-2 lg:col-span-2"
+            >
+              <div className="relative w-full h-48 sm:h-52 md:h-56 overflow-hidden">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.4, ease: [0, 0, 0.58, 1] as const }}
+                  className="w-full h-full"
+                >
+                  <Image
+                    src={image}
+                    alt={promo.title}
+                    fill
+                    className="object-contain bg-beige-cream p-3"
+                    quality={90}
+                  />
+                </motion.div>
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, ease: [0, 0, 0.58, 1] as const }}
+                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getLabelStyles(
+                    "sale"
+                  )}`}
+                >
+                  {promo.badge}
+                </motion.div>
+              </div>
+
+              <div className="p-5 sm:p-6">
+                <h3 className="text-xl sm:text-2xl font-serif font-semibold mb-3 text-coffee-dark">
+                  {promo.title}
+                </h3>
+
+                <p className="text-sm sm:text-base text-coffee-medium mb-5 sm:mb-6 leading-relaxed">
+                  {promo.text}
+                </p>
+
+                <div className="pt-4 border-t border-beige-medium space-y-3">
+                  <div className="flex flex-wrap items-end justify-between gap-4">
+                    <div className="flex items-end gap-3">
+                      <span className="text-base sm:text-lg text-coffee-light line-through">
+                        {formatMoney(promo.original)}
+                      </span>
+                      <span className="text-2xl sm:text-3xl font-serif font-bold text-gold-dark">
+                        {formatMoney(promo.promo)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <motion.button
+                      type="button"
+                      onClick={promo.onAdd}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="w-full sm:w-auto text-center px-5 py-2.5 bg-gold text-coffee-dark rounded-lg hover:bg-gold-light active:bg-gold-dark transition-all duration-200 text-sm font-medium hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
+                    >
+                      Añadir promo
+                    </motion.button>
+                    <motion.a
+                      href="#pedido"
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="w-full sm:w-auto text-center px-5 py-2.5 bg-white border border-beige-medium text-coffee-dark rounded-lg hover:bg-beige-warm active:bg-beige-cream transition-all duration-200 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
+                    >
+                      Ir a pedido
+                    </motion.a>
+                  </div>
                 </div>
               </div>
             </motion.div>

@@ -16,7 +16,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Fausto's Coffee - Origen selecto, tostado con alma",
-  description: "Café premium de origen selecto, tostado con pasión y dedicación",
+  description:
+    "Café premium de origen selecto, tostado con pasión y dedicación",
 };
 
 export default function RootLayout({

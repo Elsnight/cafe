@@ -10,6 +10,7 @@ import Gallery from "./components/Gallery";
 import CTA from "./components/CTA";
 import OrderForm from "./components/OrderForm";
 import Footer from "./components/Footer";
+import { CartProvider } from "./providers/CartProvider";
 
 export default function Home() {
   // Variantes de animación
@@ -43,17 +44,19 @@ export default function Home() {
       {/* Features Section */}
       <Features />
 
-      {/* Products Section */}
-      <Products />
+      <CartProvider>
+        {/* Products Section */}
+        <Products />
 
-      {/* Gallery Section */}
-      <Gallery />
+        {/* Gallery Section */}
+        <Gallery />
 
-      {/* CTA Section */}
-      <CTA />
+        {/* CTA Section */}
+        <CTA />
 
-      {/* Order Form Section */}
-      <OrderForm />
+        {/* Order Form Section */}
+        <OrderForm />
+      </CartProvider>
 
       {/* Envíos/Beneficios Section */}
       <section className="py-12 sm:py-16 md:py-24 lg:py-32 bg-olive-dark text-white">
@@ -80,9 +83,9 @@ export default function Home() {
             {[
               {
                 icon: "🚚",
-                title: "Envío Gratis",
+                title: "Envíos en Quito",
                 description:
-                  "En compras superiores a $30. Entrega en 24-48 horas en la ciudad.",
+                  "Lun–Vie: envío estándar $2.50 (24–48h). Fin de semana: $0.99. Envío gratis en compras superiores a $35.00.",
               },
               {
                 icon: "☕",

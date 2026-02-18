@@ -8,11 +8,15 @@ export default function Gallery() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 1, 1, 0.8]);
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.8, 1, 1, 0.8],
+  );
 
   // Lista de imágenes
   const images = [
@@ -80,7 +84,8 @@ export default function Gallery() {
             Momentos de Café
           </h2>
           <p className="mt-4 sm:mt-6 text-base sm:text-lg text-coffee-medium max-w-2xl mx-auto">
-            Descubre la pasión y dedicación detrás de cada grano, desde el cultivo hasta tu taza
+            Descubre la pasión y dedicación detrás de cada grano, desde el
+            cultivo hasta tu taza
           </p>
         </motion.div>
 
@@ -99,10 +104,10 @@ export default function Gallery() {
               <motion.div
                 key={index}
                 variants={fadeInUp}
-                whileHover={{ 
-                  scale: 1.05, 
+                whileHover={{
+                  scale: 1.05,
                   zIndex: 10,
-                  transition: { duration: 0.3 }
+                  transition: { duration: 0.3 },
                 }}
                 className="relative group cursor-pointer"
               >
@@ -128,7 +133,7 @@ export default function Gallery() {
 
           {/* Scroll horizontal para móvil */}
           <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide snap-x snap-mandatory">
-            <div className="flex gap-4" style={{ width: 'max-content' }}>
+            <div className="flex gap-4" style={{ width: "max-content" }}>
               {images.map((image, index) => (
                 <motion.div
                   key={index}
@@ -138,7 +143,7 @@ export default function Gallery() {
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   className="relative flex-shrink-0 w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] snap-center"
                 >
-                  <motion.div 
+                  <motion.div
                     className="relative w-full h-full overflow-hidden rounded-xl shadow-lg"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}

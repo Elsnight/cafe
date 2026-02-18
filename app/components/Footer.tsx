@@ -146,8 +146,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-beige-warm/80 leading-relaxed mb-6">
-              Café artesanal de origen selecto, tostado con dedicación y
-              pasión. Cada grano cuenta una historia única.
+              Café artesanal de origen selecto, tostado con dedicación y pasión.
+              Cada grano cuenta una historia única.
             </p>
             {/* Redes Sociales */}
             <div className="flex items-center space-x-4">
@@ -194,7 +194,7 @@ export default function Footer() {
               Contacto
             </h3>
             <ul className="space-y-3">
-              <motion.li 
+              <motion.li
                 className="flex items-start space-x-3"
                 whileHover={{ x: 3 }}
                 transition={{ duration: 0.2 }}
@@ -223,7 +223,7 @@ export default function Footer() {
                   contacto@faustoscoffee.com
                 </motion.a>
               </motion.li>
-              <motion.li 
+              <motion.li
                 className="flex items-start space-x-3"
                 whileHover={{ x: 3 }}
                 transition={{ duration: 0.2 }}
