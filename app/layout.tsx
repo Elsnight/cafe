@@ -1,23 +1,29 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Azeret_Mono, Barlow_Condensed, Public_Sans } from "next/font/google";
 import "./globals.css";
 
-const playfairDisplay = Playfair_Display({
-  variable: "--font-serif",
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800", "900"],
+});
+
+const publicSans = Public_Sans({
+  variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const inter = Inter({
-  variable: "--font-sans",
+const azeretMono = Azeret_Mono({
+  variable: "--font-ledger",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Fausto's Coffee - Origen selecto, tostado con alma",
+  title: "Fausto's Coffee | Café tostado a pedido en Quito",
   description:
-    "Café premium de origen selecto, tostado con pasión y dedicación",
+    "Elige café Typica en grano o molido, tostado medio u oscuro, y prepara tu pedido para entrega en Quito.",
 };
 
 export default function RootLayout({
@@ -28,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${playfairDisplay.variable} ${inter.variable} antialiased`}
+        className={`${barlowCondensed.variable} ${publicSans.variable} ${azeretMono.variable}`}
       >
         {children}
       </body>

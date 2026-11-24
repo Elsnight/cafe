@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/app/providers/CartProvider";
 import { formatMoney } from "@/lib/pricing/money";
@@ -100,37 +100,17 @@ function OptionCard({
     <motion.button
       type="button"
       onClick={onClick}
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      className={`
-        relative w-full p-4 sm:p-5 rounded-xl border-2 text-left transition-all duration-300
-        ${
-          isSelected
-            ? "border-gold bg-gold/10 shadow-lg shadow-gold/20"
-            : hasError
-              ? "border-red-300 bg-white hover:border-red-400"
-              : "border-beige-medium bg-white hover:border-coffee-light hover:shadow-md"
-        }
-      `}
+      className={`order-option ${isSelected ? "is-selected" : ""} ${hasError ? "has-error" : ""}`}
+      aria-pressed={isSelected}
     >
       {isSelected && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="absolute top-3 right-3 w-6 h-6 bg-gold rounded-full flex items-center justify-center"
-        >
+        <span className="order-option__check" aria-hidden="true">
           <CheckIcon />
-        </motion.div>
+        </span>
       )}
-      <div className={`mb-3 ${isSelected ? "text-gold" : "text-coffee-medium"}`}>{option.icon}</div>
-      <h4
-        className={`font-semibold text-base sm:text-lg ${
-          isSelected ? "text-coffee-dark" : "text-coffee-medium"
-        }`}
-      >
-        {option.label}
-      </h4>
-      <p className="text-sm text-coffee-light mt-1">{option.description}</p>
+      <span className="order-option__icon" aria-hidden="true">{option.icon}</span>
+      <strong>{option.label}</strong>
+      <small>{option.description}</small>
     </motion.button>
   );
 }
@@ -157,27 +137,28 @@ function InputWithIcon({
   required?: boolean;
 }) {
   return (
-    <div className="space-y-2">
-      <label className="flex items-center gap-2 text-sm font-medium text-coffee-medium">
-        <span className="text-coffee-light">{icon}</span>
+    <div className="order-input">
+      <label htmlFor={name}>
+        <span aria-hidden="true">{icon}</span>
         {label} {required && <span className="text-gold">*</span>}
       </label>
       <input
+        id={name}
         type={type}
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`
-          input w-full pl-4 py-3 rounded-xl transition-all duration-300
-          ${error ? "border-red-400 focus:border-red-500 focus:ring-red-200" : "focus:border-gold focus:ring-gold/20"}
-        `}
+        className={`input ${error ? "has-error" : ""}`}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${name}-error` : undefined}
       />
       {error && (
         <motion.p
+          id={`${name}-error`}
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-sm text-red-500 flex items-center gap-1"
+          className="order-error"
         >
           {error}
         </motion.p>
@@ -230,6 +211,21 @@ export default function OrderForm() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const configuredItem = [...cartItems]
+      .reverse()
+      .find((item) => item.presentation || item.roast || item.variety);
+
+    if (!configuredItem) return;
+
+    setFormData((current) => ({
+      ...current,
+      presentacion: current.presentacion || configuredItem.presentation || "",
+      tueste: current.tueste || configuredItem.roast || "",
+      tipo: current.tipo || configuredItem.variety || "Typica",
+    }));
+  }, [cartItems]);
 
   const totalsForUI =
     cartItems.length > 0
@@ -498,16 +494,6 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
     setCurrentStep(prev => Math.max(prev - 1, 1));
   };
 
-  // Variantes de animación
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0, 0, 0.58, 1] as const }
-    },
-  };
-
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 300 : -300,
@@ -528,60 +514,33 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
   return (
     <section
       id="pedido"
-      className="py-12 sm:py-16 md:py-24 lg:py-32 bg-gradient-to-b from-white to-beige-cream"
+      className="ledger-order py-12 sm:py-16 md:py-24 lg:py-32"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="max-w-4xl mx-auto"
-        >
+        <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8 sm:mb-12">
-            <motion.span
-              variants={fadeInUp}
-              className="inline-block px-4 py-1.5 bg-gold/10 text-gold-dark text-sm font-medium rounded-full mb-4"
-            >
-              Pedido Online
-            </motion.span>
             <motion.h2
-              variants={fadeInUp}
               className="text-3xl sm:text-4xl md:text-5xl font-serif text-coffee-dark mb-4"
             >
-              Realiza tu Pedido
+              Cierra tu lote
             </motion.h2>
             <motion.p
-              variants={fadeInUp}
               className="text-coffee-medium text-lg max-w-2xl mx-auto"
             >
-              Personaliza tu café perfecto y recíbelo en la puerta de tu casa
+              Confirma tus preferencias, revisa el total y prepara el mensaje para WhatsApp.
             </motion.p>
           </div>
 
           {/* Progress Steps */}
-          <motion.div
-            variants={fadeInUp}
-            className="mb-8 sm:mb-12"
-          >
+          <div className="mb-8 sm:mb-12">
             <div className="flex items-center justify-center">
               {steps.map((step, index) => (
                 <div key={step.id} className="flex items-center">
                   <div className="flex flex-col items-center">
-                    <motion.div
-                      animate={{
-                        scale: currentStep === step.id ? 1.1 : 1,
-                        backgroundColor: currentStep >= step.id ? '#d4af37' : '#e8ddd4'
-                      }}
-                      className={`
-                        w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center
-                        font-semibold text-sm sm:text-base transition-colors duration-300
-                        ${currentStep >= step.id ? 'text-coffee-dark' : 'text-coffee-light'}
-                      `}
-                    >
+                    <div className={`order-step__number ${currentStep >= step.id ? "is-complete" : ""} ${currentStep === step.id ? "is-current" : ""}`}>
                       {currentStep > step.id ? <CheckIcon /> : step.id}
-                    </motion.div>
+                    </div>
                     <span className={`
                       mt-2 text-xs sm:text-sm font-medium hidden sm:block
                       ${currentStep >= step.id ? 'text-coffee-dark' : 'text-coffee-light'}
@@ -590,15 +549,12 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                     </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className={`
-                      w-12 sm:w-20 md:w-32 h-1 mx-2 sm:mx-4 rounded-full transition-colors duration-300
-                      ${currentStep > step.id ? 'bg-gold' : 'bg-beige-medium'}
-                    `} />
+                    <div className={`order-step__line ${currentStep > step.id ? "is-complete" : ""}`} />
                   )}
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Form */}
           <motion.form
@@ -655,7 +611,17 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                       className="shrink-0 px-3 py-2 rounded-lg text-coffee-medium hover:bg-beige-cream transition"
                       aria-label="Cerrar"
                     >
-                      ✕
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      >
+                        <path d="M6 6l12 12M18 6L6 18" />
+                      </svg>
                     </button>
                   </div>
 
@@ -1096,7 +1062,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
               </div>
             </div>
           </motion.form>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

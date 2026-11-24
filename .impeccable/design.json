@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-24T23:46:23.000Z",
+  "title": "Design System: Fausto's Coffee",
+  "extensions": {
+    "colorMeta": {
+      "roast-orange": {
+        "role": "primary",
+        "displayName": "Roast Orange",
+        "canonical": "#e85d2a",
+        "tonalRamp": ["oklch(22% 0.08 41)", "oklch(32% 0.12 41)", "oklch(43% 0.16 41)", "oklch(58% 0.19 41)", "oklch(68% 0.16 41)", "oklch(78% 0.11 41)", "oklch(88% 0.055 41)", "oklch(95% 0.022 41)"]
+      },
+      "roast-orange-dark": {
+        "role": "primary",
+        "displayName": "Deep Roast Orange",
+        "canonical": "#b83e18",
+        "tonalRamp": ["oklch(18% 0.065 39)", "oklch(27% 0.10 39)", "oklch(38% 0.14 39)", "oklch(50% 0.17 39)", "oklch(62% 0.145 39)", "oklch(75% 0.095 39)", "oklch(87% 0.045 39)", "oklch(95% 0.018 39)"]
+      },
+      "status-green": {
+        "role": "secondary",
+        "displayName": "Status Green",
+        "canonical": "#55705a",
+        "tonalRamp": ["oklch(18% 0.025 148)", "oklch(28% 0.035 148)", "oklch(40% 0.045 148)", "oklch(52% 0.05 148)", "oklch(64% 0.045 148)", "oklch(76% 0.035 148)", "oklch(87% 0.022 148)", "oklch(95% 0.01 148)"]
+      },
+      "status-green-light": {
+        "role": "secondary",
+        "displayName": "Pale Status Green",
+        "canonical": "#d8e0cf",
+        "tonalRamp": ["oklch(20% 0.018 132)", "oklch(31% 0.025 132)", "oklch(43% 0.03 132)", "oklch(56% 0.035 132)", "oklch(68% 0.032 132)", "oklch(79% 0.026 132)", "oklch(89% 0.018 132)", "oklch(96% 0.008 132)"]
+      },
+      "error-red": {
+        "role": "tertiary",
+        "displayName": "Error Red",
+        "canonical": "#a8322d",
+        "tonalRamp": ["oklch(18% 0.055 27)", "oklch(28% 0.09 27)", "oklch(39% 0.13 27)", "oklch(50% 0.16 27)", "oklch(62% 0.135 27)", "oklch(75% 0.085 27)", "oklch(87% 0.04 27)", "oklch(95% 0.016 27)"]
+      },
+      "charred-ink": {
+        "role": "neutral",
+        "displayName": "Charred Ink",
+        "canonical": "#17130f",
+        "tonalRamp": ["oklch(15% 0.012 58)", "oklch(25% 0.015 58)", "oklch(36% 0.017 58)", "oklch(49% 0.018 58)", "oklch(62% 0.016 58)", "oklch(75% 0.012 58)", "oklch(87% 0.008 58)", "oklch(95% 0.004 58)"]
+      },
+      "soft-ink": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#332b23",
+        "tonalRamp": ["oklch(17% 0.015 62)", "oklch(27% 0.021 62)", "oklch(39% 0.025 62)", "oklch(51% 0.026 62)", "oklch(64% 0.022 62)", "oklch(76% 0.016 62)", "oklch(88% 0.009 62)", "oklch(95% 0.004 62)"]
+      },
+      "oat-paper": {
+        "role": "neutral",
+        "displayName": "Oat Paper",
+        "canonical": "#f1e7d2",
+        "tonalRamp": ["oklch(18% 0.018 79)", "oklch(30% 0.028 79)", "oklch(43% 0.038 79)", "oklch(56% 0.045 79)", "oklch(69% 0.043 79)", "oklch(80% 0.035 79)", "oklch(90% 0.024 79)", "oklch(96% 0.012 79)"]
+      },
+      "light-paper": {
+        "role": "neutral",
+        "displayName": "Light Paper",
+        "canonical": "#fffaf0",
+        "tonalRamp": ["oklch(20% 0.012 83)", "oklch(32% 0.018 83)", "oklch(45% 0.024 83)", "oklch(58% 0.028 83)", "oklch(71% 0.026 83)", "oklch(82% 0.021 83)", "oklch(91% 0.014 83)", "oklch(98% 0.006 83)"]
+      },
+      "deep-paper": {
+        "role": "neutral",
+        "displayName": "Deep Paper",
+        "canonical": "#d9c9a9",
+        "tonalRamp": ["oklch(18% 0.02 78)", "oklch(29% 0.032 78)", "oklch(42% 0.043 78)", "oklch(55% 0.052 78)", "oklch(67% 0.049 78)", "oklch(78% 0.04 78)", "oklch(88% 0.026 78)", "oklch(95% 0.012 78)"]
+      },
+      "rule-line": {
+        "role": "neutral",
+        "displayName": "Rule Line",
+        "canonical": "rgba(23, 19, 15, 0.24)",
+        "tonalRamp": ["rgba(23, 19, 15, 0.9)", "rgba(23, 19, 15, 0.72)", "rgba(23, 19, 15, 0.56)", "rgba(23, 19, 15, 0.4)", "rgba(23, 19, 15, 0.28)", "rgba(23, 19, 15, 0.18)", "rgba(23, 19, 15, 0.1)", "rgba(23, 19, 15, 0.04)"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Large uppercase claims and section headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Product sizes, row titles, form headings, and summaries."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Readable explanations and transactional guidance."
+      },
+      "label": {
+        "displayName": "Ledger Label",
+        "purpose": "Batch codes, prices, statuses, legends, and metadata."
+      }
+    },
+    "shadows": [
+      {
+        "name": "lifted-sheet",
+        "value": "0 22px 54px rgba(0, 0, 0, 0.34)",
+        "purpose": "A major paper artifact over a dark field."
+      },
+      {
+        "name": "paper-panel",
+        "value": "0 18px 38px rgba(58, 43, 25, 0.12)",
+        "purpose": "A light specification or information sheet."
+      },
+      {
+        "name": "transactional-panel",
+        "value": "0 18px 38px rgba(58, 43, 25, 0.14), 0 3px 8px rgba(58, 43, 25, 0.08)",
+        "purpose": "Forms and focused order surfaces."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-state",
+        "value": "160ms ease",
+        "purpose": "Selection, border, background, and compact control feedback."
+      },
+      {
+        "name": "action-state",
+        "value": "180ms ease",
+        "purpose": "Primary action hover and navigation underline movement."
+      },
+      {
+        "name": "mobile-register",
+        "value": "260ms ease",
+        "purpose": "Opening and closing the mobile navigation register."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "Near-zero animation and transition duration under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "navigation-collapse",
+        "value": "980px"
+      },
+      {
+        "name": "mobile-stack",
+        "value": "760px"
+      }
+    ],
+    "assets": [
+      {
+        "name": "Generic Roaster Task-Light Plate",
+        "path": "/roaster-tasklight.png",
+        "role": "A generic workshop material plate integrated through dark overlays and focused task-light depth.",
+        "provenance": "The exact generation prompt is embedded in the shipping raster.",
+        "constraints": [
+          "Use as atmospheric material context, never as factual proof.",
+          "Keep the machine and setting generic and unbranded.",
+          "Never imply a real person, founder, roastery, storefront, or identifiable location.",
+          "Do not introduce people, logos, labels, or readable text."
+        ]
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The decisive roast-orange action used to add, continue, or submit.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">AGREGAR AL LOTE <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;min-height:52px;align-items:center;justify-content:center;gap:18px;padding:0 22px;border:0;border-radius:2px;background:var(--roast,#e85d2a);color:var(--paper-light,#fffaf0);cursor:pointer;font-family:var(--font-display,'Barlow Condensed',sans-serif);font-size:1.2rem;font-weight:800;letter-spacing:.01em;text-transform:uppercase;transition:background 180ms ease,transform 180ms ease}.ds-btn-primary svg{width:22px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}.ds-btn-primary:hover{background:var(--roast-dark,#b83e18);transform:translateY(-2px)}.ds-btn-primary:focus-visible{outline:3px solid var(--roast,#e85d2a);outline-offset:4px}.ds-btn-primary:active{transform:translateY(0)}"
+    },
+    {
+      "name": "Ghost Selection",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "A compact ledger control for package, presentation, or roast choices.",
+      "html": "<button class=\"ds-btn-ghost\" type=\"button\" aria-pressed=\"false\">MOLIDO</button>",
+      "css": ".ds-btn-ghost{min-height:40px;padding:7px 13px;border:1px solid var(--ink,#17130f);border-radius:2px;background:transparent;color:var(--ink,#17130f);cursor:pointer;font-family:var(--font-ledger,'Azeret Mono',monospace);font-size:.75rem;font-weight:650;transition:background 160ms ease,color 160ms ease,transform 160ms ease}.ds-btn-ghost:hover{transform:translateY(-2px)}.ds-btn-ghost:focus-visible{outline:3px solid var(--roast,#e85d2a);outline-offset:4px}.ds-btn-ghost[aria-pressed='true']{background:var(--ink,#17130f);color:var(--paper-light,#fffaf0)}.ds-btn-ghost:active{transform:translateY(0)}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "The standard contact and delivery field with a ledger-style label.",
+      "html": "<label class=\"ds-field\"><span>NOMBRE COMPLETO</span><input type=\"text\" placeholder=\"Tu nombre\" /></label>",
+      "css": ".ds-field{display:grid;gap:8px;color:var(--ink-soft,#332b23);font-family:var(--font-ledger,'Azeret Mono',monospace);font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}.ds-field input{width:100%;min-height:50px;padding:12px 14px;border:1px solid var(--line,rgba(23,19,15,.24));border-radius:2px;background:var(--paper-light,#fffaf0);color:var(--ink,#17130f);caret-color:var(--roast,#e85d2a);font-family:var(--font-body,'Public Sans',sans-serif);font-size:1rem;text-transform:none}.ds-field input::placeholder{color:#756856}.ds-field input:hover{border-color:var(--ink,#17130f)}.ds-field input:focus{border-color:var(--roast,#e85d2a);outline:3px solid rgba(232,93,42,.25);outline-offset:1px}.ds-field input:focus-visible{border-color:var(--roast,#e85d2a)}"
+    },
+    {
+      "name": "Option Card",
+      "kind": "card",
+      "refersTo": "option-card",
+      "description": "A large stateful choice for coffee presentation or roast.",
+      "html": "<button class=\"ds-option\" type=\"button\" aria-pressed=\"false\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"12\" rx=\"6\" ry=\"9\"/><path d=\"M12 3c-2 3-2 6 0 9s2 6 0 9\"/></svg><strong>GRANO</strong><small>Para moler fresco</small></button>",
+      "css": ".ds-option{display:grid;width:100%;min-height:118px;padding:18px 48px 16px 18px;border:1px solid var(--line,rgba(23,19,15,.24));border-radius:2px;background:var(--paper-light,#fffaf0);color:var(--ink,#17130f);cursor:pointer;text-align:left;grid-template-columns:34px 1fr;grid-template-rows:auto auto;transition:border-color 160ms ease,background 160ms ease,color 160ms ease}.ds-option svg{width:25px;height:25px;grid-row:1/-1;fill:none;stroke:currentColor;stroke-width:1.5}.ds-option strong{align-self:end;font-family:var(--font-display,'Barlow Condensed',sans-serif);font-size:1.4rem;line-height:1;text-transform:uppercase}.ds-option small{align-self:start;margin-top:7px;font-family:var(--font-body,'Public Sans',sans-serif);font-size:.78rem}.ds-option:hover{border-color:var(--ink,#17130f)}.ds-option:focus-visible{outline:3px solid var(--roast,#e85d2a);outline-offset:4px}.ds-option[aria-pressed='true']{border-color:var(--ink,#17130f);background:var(--ink,#17130f);color:var(--paper-light,#fffaf0)}"
+    },
+    {
+      "name": "Ledger Navigation",
+      "kind": "nav",
+      "description": "Dark workshop navigation with a typographic wordmark and active underline behavior.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegación principal\"><a class=\"ds-wordmark\" href=\"#\"><b>FAUSTO'S</b><small>COFFEE · QUITO</small></a><div><a href=\"#\">CÓMO TOSTAMOS</a><a href=\"#\">CAFÉ Y PRECIOS</a><a href=\"#\">ENTREGAS</a></div></nav>",
+      "css": ".ds-nav{display:flex;min-height:76px;align-items:center;justify-content:space-between;gap:28px;padding:0 24px;background:var(--ink,#17130f);color:var(--paper,#f1e7d2)}.ds-wordmark{display:inline-flex;flex-direction:column;color:var(--paper-light,#fffaf0);text-decoration:none}.ds-wordmark b{font-family:var(--font-display,'Barlow Condensed',sans-serif);font-size:2rem;font-weight:800;line-height:.8;letter-spacing:-.02em}.ds-wordmark small{margin-top:8px;color:var(--roast,#e85d2a);font-family:var(--font-ledger,'Azeret Mono',monospace);font-size:.62rem;font-weight:600;letter-spacing:.15em}.ds-nav>div{display:flex;gap:32px}.ds-nav>div a{position:relative;color:var(--paper,#f1e7d2);font-family:var(--font-body,'Public Sans',sans-serif);font-size:.9rem;font-weight:650;text-decoration:none}.ds-nav>div a::after{position:absolute;right:0;bottom:-9px;left:0;height:2px;background:var(--roast,#e85d2a);content:'';transform:scaleX(0);transform-origin:right;transition:transform 180ms ease}.ds-nav>div a:hover::after,.ds-nav>div a:focus-visible::after{transform:scaleX(1);transform-origin:left}.ds-nav a:focus-visible{outline:3px solid var(--roast,#e85d2a);outline-offset:4px}"
+    },
+    {
+      "name": "Ruled Paper Panel",
+      "kind": "card",
+      "description": "A substantial paper container for specifications or transactional content.",
+      "html": "<section class=\"ds-paper\"><span>LOTE / 024</span><h3>CAFÉ TOSTADO A PEDIDO</h3><p>Una superficie de trabajo clara, reglada y físicamente contenida.</p></section>",
+      "css": ".ds-paper{padding:28px;border:1px solid var(--ink,#17130f);border-radius:3px;background-color:rgba(255,250,240,.91);background-image:linear-gradient(rgba(23,19,15,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(23,19,15,.045) 1px,transparent 1px);background-size:28px 28px;color:var(--ink,#17130f);box-shadow:0 18px 38px rgba(58,43,25,.14),0 3px 8px rgba(58,43,25,.08)}.ds-paper span{font-family:var(--font-ledger,'Azeret Mono',monospace);font-size:.65rem;font-weight:700;letter-spacing:.08em}.ds-paper h3{max-width:12ch;margin:24px 0 14px;font-family:var(--font-display,'Barlow Condensed',sans-serif);font-size:2rem;font-weight:800;line-height:.95;letter-spacing:-.025em;text-transform:uppercase}.ds-paper p{max-width:44ch;margin:0;font-family:var(--font-body,'Public Sans',sans-serif);font-size:1rem;line-height:1.55}.ds-paper:focus-within{outline:3px solid var(--roast,#e85d2a);outline-offset:4px}"
+    },
+    {
+      "name": "Status Stamp",
+      "kind": "chip",
+      "refersTo": "status-stamp",
+      "description": "A compact process or verification mark, not a decorative badge.",
+      "html": "<span class=\"ds-status\">LISTO</span>",
+      "css": ".ds-status{display:inline-block;padding:10px 12px;border:2px solid var(--status,#55705a);background:transparent;color:var(--status,#55705a);font-family:var(--font-ledger,'Azeret Mono',monospace);font-size:.7rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em;text-transform:uppercase;transform:rotate(-1deg)}.ds-status:hover{background:var(--status,#55705a);color:var(--paper-light,#fffaf0)}.ds-status:focus-visible{outline:3px solid var(--roast,#e85d2a);outline-offset:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Roast Ledger",
+    "overview": "The system feels like a working production record beside the roaster: tactile oat paper, charred ink, graph rulings, monospaced batch labels, and decisive workshop typography. It is practical rather than nostalgic—the visual world makes freshness and process tangible while keeping prices, choices, and delivery information easy to scan.\n\nThe experience is dense but orderly. Strong rules, tabular rows, squared controls, and status marks communicate operational credibility; roast orange supplies action and heat, while muted green signals progress and completion. One provenance-tracked generic workshop material plate may add task-light atmosphere, but it remains context rather than evidence. Decorative details should continue to behave like useful marks on a real artifact, never like generic coffee-shop ornament.",
+    "keyCharacteristics": [
+      "Tactile paper and ink contrast with sparse, functional accent color.",
+      "Condensed display type, readable sans text, and monospaced ledger metadata have distinct jobs.",
+      "Thin rules, graph grids, stamps, and tabular alignment establish workshop precision.",
+      "Controls are compact, squared, and visibly stateful.",
+      "Depth is reserved for physical paper-like surfaces, not every container.",
+      "A single generic workshop plate can supply material realism without depicting a person or identifiable place."
+    ],
+    "rules": [
+      {
+        "name": "The Heat and Status Rule",
+        "body": "Use Roast Orange for action or active heat; use Status Green for progress, completion, or delivery. Do not swap their meanings.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper First Rule",
+        "body": "Most light surfaces stay within the oat-paper family; pure white is not the default canvas.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three-Job Type Rule",
+        "body": "Barlow Condensed speaks, Public Sans explains, and Azeret Mono records. Do not use one family to imitate another role.",
+        "section": "typography"
+      },
+      {
+        "name": "The Compressed Headline Rule",
+        "body": "Display headings are bold, tightly led, and commonly uppercase; body copy remains sentence case and comfortably spaced.",
+        "section": "typography"
+      },
+      {
+        "name": "The Register Grid Rule",
+        "body": "Align related labels, values, and actions into visible rows or columns; spacing should communicate records, not floating card collections.",
+        "section": "layout"
+      },
+      {
+        "name": "The Structural Shadow Rule",
+        "body": "Apply elevation to whole artifacts and transactional panels, never to every row, chip, or button.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Provenanced Material Rule",
+        "body": "The system permits one provenance-tracked generic workshop material plate integrated through task-light depth. Generated imagery must stay unbranded and must never imply a real person, founder, roastery, storefront, or identifiable location.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Squared Workshop Rule",
+        "body": "Default to 2–3px corners; use a circle only when the component’s meaning or physical metaphor calls for one.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do preserve the distinct heat, status, and error meanings of the three accent colors.",
+      "Do use rules, alignment, and tabular numerals to make prices, totals, and process states easy to compare.",
+      "Do keep interactive states explicit through inversion, accent changes, underlines, or status color.",
+      "Do reduce motion to near-zero when the user requests reduced motion.",
+      "Do use tactile marks—rulings, stamps, punched circles, and paper edges—only when they support the production-ledger character.",
+      "Do retain embedded provenance for every generated raster and treat workshop imagery as generic material atmosphere rather than factual proof.",
+      "Do preserve compatible user selections across transaction stages without replacing later edits."
+    ],
+    "donts": [
+      "Don't introduce generic luxury-coffee styling such as soft cream cards, gold gradients, script type, or ornamental bean motifs.",
+      "Don't turn every content group into a rounded, elevated card.",
+      "Don't use Roast Orange and Status Green as interchangeable decoration.",
+      "Don't collapse display, body, and ledger metadata into one type family.",
+      "Don't let generated imagery imply Fausto, another real person, a real roastery, storefront, or identifiable location.",
+      "Don't promote a single page’s section sequence or composition into a global layout requirement."
+    ]
+  }
+}
