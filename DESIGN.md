@@ -191,9 +191,11 @@ Components feel tactile and decisive: every interactive state changes clearly, w
 ### Buttons
 - **Shape:** Compact, squared controls with a 2px radius; major actions have a minimum height of 52px.
 - **Primary:** Roast Orange with Light Paper text, bold condensed uppercase type, and 22px horizontal padding.
+- **Accessible Type:** Light Paper on Roast Orange is reserved for bold display labels at 1.2rem or larger; smaller action text uses Charred Ink or Deep Roast Orange to preserve WCAG AA contrast.
 - **Hover / Focus:** Hover shifts to Deep Roast Orange and lifts 2px over 180ms; keyboard focus uses a 3px Roast Orange outline with 4px offset.
 - **Secondary / Ghost:** Transparent with a one-pixel ink or paper border and monospaced label type. Selected ghost controls invert to Charred Ink with Light Paper text.
 - **Success:** A completed add action changes from Roast Orange to Status Green.
+- **Touch Floor:** Every standalone action and selection control is at least 44px high on touch layouts; major actions remain 52px.
 
 ### Chips
 - **Style:** Small rectangular labels use monospaced uppercase type, a one-pixel accent border, and transparent backing.
@@ -222,6 +224,10 @@ Choice cards are 118px-tall squared controls with a two-column icon-and-copy str
 ### Selection Continuity
 
 When an upstream configurator and a downstream transaction form represent the same choices, carry the latest configured values forward into empty matching fields. Preserve visible selection state and never overwrite a value the user has already edited downstream.
+
+### Dialog
+
+Confirmation dialogs move focus inside on open, contain keyboard navigation, close with Escape, make the background inert, and restore focus to their trigger. Their controls retain the same 2px workshop radius and visible focus ring as the rest of the system.
 
 ### Status Stamp
 

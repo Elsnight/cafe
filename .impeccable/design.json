@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-24T23:46:23.000Z",
+  "generatedAt": "2026-11-25T23:02:02.000Z",
   "title": "Design System: Fausto's Coffee",
   "extensions": {
     "colorMeta": {
@@ -141,9 +141,9 @@
     "assets": [
       {
         "name": "Generic Roaster Task-Light Plate",
-        "path": "/roaster-tasklight.png",
+        "path": "/roaster-tasklight.webp",
         "role": "A generic workshop material plate integrated through dark overlays and focused task-light depth.",
-        "provenance": "The exact generation prompt is embedded in the shipping raster.",
+        "provenance": "Optimized WebP derived from the provenance-bearing source PNG retained in public/.",
         "constraints": [
           "Use as atmospheric material context, never as factual proof.",
           "Keep the machine and setting generic and unbranded.",
@@ -168,7 +168,7 @@
       "refersTo": "button-ghost",
       "description": "A compact ledger control for package, presentation, or roast choices.",
       "html": "<button class=\"ds-btn-ghost\" type=\"button\" aria-pressed=\"false\">MOLIDO</button>",
-      "css": ".ds-btn-ghost{min-height:40px;padding:7px 13px;border:1px solid var(--ink,#17130f);border-radius:2px;background:transparent;color:var(--ink,#17130f);cursor:pointer;font-family:var(--font-ledger,'Azeret Mono',monospace);font-size:.75rem;font-weight:650;transition:background 160ms ease,color 160ms ease,transform 160ms ease}.ds-btn-ghost:hover{transform:translateY(-2px)}.ds-btn-ghost:focus-visible{outline:3px solid var(--roast,#e85d2a);outline-offset:4px}.ds-btn-ghost[aria-pressed='true']{background:var(--ink,#17130f);color:var(--paper-light,#fffaf0)}.ds-btn-ghost:active{transform:translateY(0)}"
+      "css": ".ds-btn-ghost{min-height:44px;padding:7px 13px;border:1px solid var(--ink,#17130f);border-radius:2px;background:transparent;color:var(--ink,#17130f);cursor:pointer;font-family:var(--font-ledger,'Azeret Mono',monospace);font-size:.75rem;font-weight:650;transition:background 160ms ease,color 160ms ease,transform 160ms ease}.ds-btn-ghost:hover{transform:translateY(-2px)}.ds-btn-ghost:focus-visible{outline:3px solid var(--roast,#e85d2a);outline-offset:4px}.ds-btn-ghost[aria-pressed='true']{background:var(--ink,#17130f);color:var(--paper-light,#fffaf0)}.ds-btn-ghost:active{transform:translateY(0)}"
     },
     {
       "name": "Text Field",

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/app/providers/CartProvider";
 import { formatMoney } from "@/lib/pricing/money";
@@ -11,28 +12,52 @@ import { createWhatsAppOrderSubmitter } from "@/lib/adapters/orderSubmitter";
 
 // Iconos SVG inline
 const CoffeeGrindIcon = () => (
-  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg
+    className="w-8 h-8"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
     <circle cx="12" cy="12" r="3" />
     <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
   </svg>
 );
 
 const CoffeeBeanIcon = () => (
-  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg
+    className="w-8 h-8"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
     <ellipse cx="12" cy="12" rx="6" ry="9" />
     <path d="M12 3c-2 3-2 6 0 9s2 6 0 9" />
   </svg>
 );
 
 const FireMediumIcon = () => (
-  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg
+    className="w-8 h-8"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
     <path d="M12 22c4 0 7-3 7-7 0-2.5-1.5-5-3-7-.75-1-1.5-2-1.5-3.5 0-2 .5-3.5 1.5-4.5-2.5 1.5-5 4-5 7 0 1.5-.5 2.5-2 3.5S6 12.5 6 15c0 4 3 7 6 7z" />
     <path d="M12 22c-2 0-4-1.5-4-4 0-2 2-4 4-4s4 2 4 4c0 2.5-2 4-4 4z" />
   </svg>
 );
 
 const FireDarkIcon = () => (
-  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg
+    className="w-8 h-8"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
     <path d="M12 22c5 0 8-3.5 8-8 0-3-2-6-4-8.5-1-1.25-2-2.5-2-4.5 0-1 .25-1.75.5-2.5C11.5 1 9 4 9 7.5c0 2-1 3.5-3 5S3 16 3 18c0 4.5 4 8 9 8z" />
     <path d="M12 22c-2.5 0-5-2-5-5 0-2.5 2.5-5 5-5s5 2.5 5 5c0 3-2.5 5-5 5z" />
     <circle cx="12" cy="17" r="2" />
@@ -40,27 +65,51 @@ const FireDarkIcon = () => (
 );
 
 const UserIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg
+    className="w-5 h-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg>
 );
 
 const PhoneIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg
+    className="w-5 h-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
   </svg>
 );
 
 const EmailIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg
+    className="w-5 h-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
     <polyline points="22,6 12,13 2,6" />
   </svg>
 );
 
 const LocationIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg
+    className="w-5 h-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
     <circle cx="12" cy="10" r="3" />
   </svg>
@@ -68,12 +117,18 @@ const LocationIcon = () => (
 
 const WhatsAppIcon = () => (
   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
   </svg>
 );
 
 const CheckIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+  <svg
+    className="w-5 h-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+  >
     <polyline points="20 6 9 17 4 12" />
   </svg>
 );
@@ -87,11 +142,13 @@ interface CoffeeOption {
 
 function OptionCard({
   option,
+  field,
   isSelected,
   onClick,
   hasError,
 }: {
   option: CoffeeOption;
+  field: string;
   isSelected: boolean;
   onClick: () => void;
   hasError?: boolean;
@@ -102,13 +159,16 @@ function OptionCard({
       onClick={onClick}
       className={`order-option ${isSelected ? "is-selected" : ""} ${hasError ? "has-error" : ""}`}
       aria-pressed={isSelected}
+      data-field={field}
     >
       {isSelected && (
         <span className="order-option__check" aria-hidden="true">
           <CheckIcon />
         </span>
       )}
-      <span className="order-option__icon" aria-hidden="true">{option.icon}</span>
+      <span className="order-option__icon" aria-hidden="true">
+        {option.icon}
+      </span>
       <strong>{option.label}</strong>
       <small>{option.description}</small>
     </motion.button>
@@ -125,6 +185,7 @@ function InputWithIcon({
   onChange,
   error,
   required,
+  describedBy,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -135,12 +196,25 @@ function InputWithIcon({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   required?: boolean;
+  describedBy?: string;
 }) {
+  const descriptionIds = [error ? `${name}-error` : "", describedBy ?? ""]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <div className="order-input">
       <label htmlFor={name}>
         <span aria-hidden="true">{icon}</span>
-        {label} {required && <span className="text-gold">*</span>}
+        {label}{" "}
+        {required && (
+          <>
+            <span className="text-gold" aria-hidden="true">
+              *
+            </span>
+            <span className="sr-only">(obligatorio)</span>
+          </>
+        )}
       </label>
       <input
         id={name}
@@ -150,8 +224,9 @@ function InputWithIcon({
         onChange={onChange}
         placeholder={placeholder}
         className={`input ${error ? "has-error" : ""}`}
+        required={required}
         aria-invalid={Boolean(error)}
-        aria-describedby={error ? `${name}-error` : undefined}
+        aria-describedby={descriptionIds || undefined}
       />
       {error && (
         <motion.p
@@ -159,6 +234,7 @@ function InputWithIcon({
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
           className="order-error"
+          role="alert"
         >
           {error}
         </motion.p>
@@ -168,17 +244,42 @@ function InputWithIcon({
 }
 
 const presentaciones: CoffeeOption[] = [
-  { id: "Molido", label: "Molido", description: "Listo para preparar", icon: <CoffeeGrindIcon /> },
-  { id: "Grano", label: "Grano", description: "Para moler fresco", icon: <CoffeeBeanIcon /> },
+  {
+    id: "Molido",
+    label: "Molido",
+    description: "Listo para preparar",
+    icon: <CoffeeGrindIcon />,
+  },
+  {
+    id: "Grano",
+    label: "Grano",
+    description: "Para moler fresco",
+    icon: <CoffeeBeanIcon />,
+  },
 ];
 
 const tipos: CoffeeOption[] = [
-  { id: "Typica", label: "Typica", description: "Clásico y balanceado", icon: <CoffeeBeanIcon /> },
+  {
+    id: "Typica",
+    label: "Typica",
+    description: "Clásico y balanceado",
+    icon: <CoffeeBeanIcon />,
+  },
 ];
 
 const tuestes: CoffeeOption[] = [
-  { id: "Medio", label: "Medio", description: "Equilibrio perfecto", icon: <FireMediumIcon /> },
-  { id: "Oscuro", label: "Oscuro", description: "Intenso y robusto", icon: <FireDarkIcon /> },
+  {
+    id: "Medio",
+    label: "Medio",
+    description: "Equilibrio perfecto",
+    icon: <FireMediumIcon />,
+  },
+  {
+    id: "Oscuro",
+    label: "Oscuro",
+    description: "Intenso y robusto",
+    icon: <FireDarkIcon />,
+  },
 ];
 
 const steps = [
@@ -190,13 +291,19 @@ const steps = [
 export default function OrderForm() {
   const { items: cartItems } = useCart();
   const orderSubmitter = useMemo(
-    () => createWhatsAppOrderSubmitter({ phoneE164: "593996436622", openTarget: "_blank" }),
-    []
+    () =>
+      createWhatsAppOrderSubmitter({
+        phoneE164: "593996436622",
+        openTarget: "_blank",
+      }),
+    [],
   );
   const draftStorage = useMemo(() => browserLocalStorage(), []);
   const [currentStep, setCurrentStep] = useState(1);
   const [postSubmitInfo, setPostSubmitInfo] = useState<string | null>(null);
-  const [pendingWhatsAppMessage, setPendingWhatsAppMessage] = useState<string | null>(null);
+  const [pendingWhatsAppMessage, setPendingWhatsAppMessage] = useState<
+    string | null
+  >(null);
   const [formData, setFormData] = useState({
     presentacion: "",
     tipo: "Typica",
@@ -211,6 +318,8 @@ export default function OrderForm() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const dialogTriggerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const configuredItem = [...cartItems]
@@ -227,6 +336,66 @@ export default function OrderForm() {
     }));
   }, [cartItems]);
 
+  useEffect(() => {
+    if (!pendingWhatsAppMessage) return;
+
+    const page = document.querySelector<HTMLElement>(".roast-ledger");
+    page?.setAttribute("inert", "");
+
+    const frame = window.requestAnimationFrame(() => {
+      dialogRef.current
+        ?.querySelector<HTMLElement>("[data-dialog-autofocus]")
+        ?.focus();
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      page?.removeAttribute("inert");
+      window.requestAnimationFrame(() => dialogTriggerRef.current?.focus());
+    };
+  }, [pendingWhatsAppMessage]);
+
+  const focusFirstError = (field: string) => {
+    window.setTimeout(() => {
+      const selector =
+        field === "submit"
+          ? '[data-form-error="submit"]'
+          : `[name="${field}"], [data-field="${field}"]`;
+      const element = document.querySelector<HTMLElement>(selector);
+      element?.scrollIntoView({ behavior: "smooth", block: "center" });
+      element?.focus();
+    }, 100);
+  };
+
+  const closeWhatsAppDialog = () => {
+    setPendingWhatsAppMessage(null);
+  };
+
+  const handleDialogKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeWhatsAppDialog();
+      return;
+    }
+
+    if (event.key !== "Tab") return;
+
+    const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), textarea:not([disabled]), [href], [tabindex]:not([tabindex="-1"])',
+    );
+    if (!focusable?.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
   const totalsForUI =
     cartItems.length > 0
       ? calculateOrderTotals({
@@ -236,7 +405,7 @@ export default function OrderForm() {
       : null;
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -248,13 +417,19 @@ export default function OrderForm() {
     setErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
   };
 
-  const validateForm = (): { isValid: boolean; errors: Record<string, string> } => {
+  const validateForm = (): {
+    isValid: boolean;
+    errors: Record<string, string>;
+  } => {
     const newErrors: Record<string, string> = {};
 
     // Debe haber al menos un producto seleccionado (qty > 0)
-    const hasSelectedProduct = cartItems.some((x) => Number.isFinite(x.qty) && x.qty > 0);
+    const hasSelectedProduct = cartItems.some(
+      (x) => Number.isFinite(x.qty) && x.qty > 0,
+    );
     if (!hasSelectedProduct) {
-      newErrors.submit = "Agrega al menos un producto al carrito antes de enviar el pedido.";
+      newErrors.submit =
+        "Agrega al menos un producto al carrito antes de enviar el pedido.";
     }
 
     // Validar campos requeridos
@@ -300,7 +475,8 @@ export default function OrderForm() {
     if (formData.telefono.trim()) {
       const phoneRegex = /^\d{7,15}$/;
       if (!phoneRegex.test(formData.telefono.trim())) {
-        newErrors.telefono = "El teléfono debe tener solo números (7 a 15 dígitos)";
+        newErrors.telefono =
+          "El teléfono debe tener solo números (7 a 15 dígitos)";
       }
     }
 
@@ -318,18 +494,8 @@ export default function OrderForm() {
     const validation = validateForm();
     if (!validation.isValid) {
       setErrors(validation.errors);
-      // Scroll al primer error después de un pequeño delay para que el DOM se actualice
-      setTimeout(() => {
-        const firstErrorField = Object.keys(validation.errors)[0];
-        if (firstErrorField) {
-          const element = document.querySelector(`[name="${firstErrorField}"]`);
-          element?.scrollIntoView({ behavior: "smooth", block: "center" });
-          // Enfocar el elemento si es un input o select
-          if (element instanceof HTMLElement) {
-            element.focus();
-          }
-        }
-      }, 100);
+      const firstErrorField = Object.keys(validation.errors)[0];
+      if (firstErrorField) focusFirstError(firstErrorField);
       return;
     }
 
@@ -346,7 +512,9 @@ export default function OrderForm() {
         : null;
 
       const deliveryLabel =
-        formData.deliveryDayType === "weekend" ? "Fin de semana" : "Entre semana (Lun–Vie)";
+        formData.deliveryDayType === "weekend"
+          ? "Fin de semana"
+          : "Entre semana (Lun–Vie)";
 
       const cartLines = totals
         ? cartItems
@@ -372,7 +540,7 @@ export default function OrderForm() {
 ${cartLines}
 
 ${promoLines ? `🏷️ Promos aplicadas:\n${promoLines}\n\n` : ""}Subtotal normal: ${formatMoney(
-            totals.normalSubtotal
+            totals.normalSubtotal,
           )}
 Subtotal con promo: ${formatMoney(totals.promoSubtotal)}
 Envío: ${formatMoney(totals.shipping)}
@@ -406,10 +574,17 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
       draftStorage.setItem("pedido_fausto_coffee", JSON.stringify(formData));
 
       // Mostrar confirmación antes de abrir WhatsApp
+      dialogTriggerRef.current =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
       setPendingWhatsAppMessage(mensaje);
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
-      setErrors({ submit: "Hubo un error al procesar tu pedido. Por favor intenta nuevamente." });
+      setErrors({
+        submit:
+          "Hubo un error al procesar tu pedido. Por favor intenta nuevamente.",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -438,7 +613,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
     setPostSubmitInfo(
       copied
         ? 'Se va a abrir WhatsApp con el mensaje listo. Si no aparece, pégalo (ya está copiado). Luego toca "Enviar" dentro de WhatsApp.'
-        : 'Se va a abrir WhatsApp con el mensaje listo. Luego toca "Enviar" dentro de WhatsApp.'
+        : 'Se va a abrir WhatsApp con el mensaje listo. Luego toca "Enviar" dentro de WhatsApp.',
     );
 
     orderSubmitter.submit({ message: pendingWhatsAppMessage });
@@ -449,7 +624,8 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
     const newErrors: Record<string, string> = {};
 
     if (step === 1) {
-      if (!formData.presentacion) newErrors.presentacion = "Selecciona una presentación";
+      if (!formData.presentacion)
+        newErrors.presentacion = "Selecciona una presentación";
       if (!formData.tipo) newErrors.tipo = "Selecciona un tipo de café";
       if (!formData.tueste) newErrors.tueste = "Selecciona un tueste";
     } else if (step === 2) {
@@ -476,39 +652,42 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
         }
       }
     } else if (step === 3) {
-      if (!formData.direccion.trim()) newErrors.direccion = "Ingresa tu dirección";
+      if (!formData.direccion.trim())
+        newErrors.direccion = "Ingresa tu dirección";
       if (!formData.sector.trim()) newErrors.sector = "Ingresa el sector";
     }
 
     setErrors(newErrors);
+    const firstErrorField = Object.keys(newErrors)[0];
+    if (firstErrorField) focusFirstError(firstErrorField);
     return Object.keys(newErrors).length === 0;
   };
 
   const nextStep = () => {
     if (validateStep(currentStep)) {
-      setCurrentStep(prev => Math.min(prev + 1, 3));
+      setCurrentStep((prev) => Math.min(prev + 1, 3));
     }
   };
 
   const prevStep = () => {
-    setCurrentStep(prev => Math.max(prev - 1, 1));
+    setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 300 : -300,
-      opacity: 0
+      opacity: 0,
     }),
     center: {
       zIndex: 1,
       x: 0,
-      opacity: 1
+      opacity: 1,
     },
     exit: (direction: number) => ({
       zIndex: 0,
       x: direction < 0 ? 300 : -300,
-      opacity: 0
-    })
+      opacity: 0,
+    }),
   };
 
   return (
@@ -520,17 +699,26 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8 sm:mb-12">
-            <motion.h2
-              className="text-3xl sm:text-4xl md:text-5xl font-serif text-coffee-dark mb-4"
-            >
+            <motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-coffee-dark mb-4">
               Comprar café en Quito: haz tu pedido en 2 minutos
             </motion.h2>
-            <motion.p
-              className="text-coffee-medium text-lg max-w-2xl mx-auto"
-            >
-              Confirma tus preferencias, revisa el total y prepara el mensaje para WhatsApp.
+            <motion.p className="text-coffee-medium text-lg max-w-2xl mx-auto">
+              Confirma tus preferencias, revisa el total y prepara el mensaje
+              para WhatsApp.
             </motion.p>
           </div>
+
+          {cartItems.length === 0 && (
+            <div className="order-cart-notice" role="status">
+              <div>
+                <strong>Tu lote todavía está vacío.</strong>
+                <p>
+                  Elige una presentación antes de enviar el pedido por WhatsApp.
+                </p>
+              </div>
+              <a href="#productos">Elegir mi café</a>
+            </div>
+          )}
 
           {/* Progress Steps */}
           <div className="mb-8 sm:mb-12">
@@ -538,18 +726,24 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
               {steps.map((step, index) => (
                 <div key={step.id} className="flex items-center">
                   <div className="flex flex-col items-center">
-                    <div className={`order-step__number ${currentStep >= step.id ? "is-complete" : ""} ${currentStep === step.id ? "is-current" : ""}`}>
+                    <div
+                      className={`order-step__number ${currentStep >= step.id ? "is-complete" : ""} ${currentStep === step.id ? "is-current" : ""}`}
+                    >
                       {currentStep > step.id ? <CheckIcon /> : step.id}
                     </div>
-                    <span className={`
+                    <span
+                      className={`
                       mt-2 text-xs sm:text-sm font-medium hidden sm:block
-                      ${currentStep >= step.id ? 'text-coffee-dark' : 'text-coffee-light'}
-                    `}>
+                      ${currentStep >= step.id ? "text-coffee-dark" : "text-coffee-light"}
+                    `}
+                    >
                       {step.name}
                     </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className={`order-step__line ${currentStep > step.id ? "is-complete" : ""}`} />
+                    <div
+                      className={`order-step__line ${currentStep > step.id ? "is-complete" : ""}`}
+                    />
                   )}
                 </div>
               ))}
@@ -557,15 +751,15 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
           </div>
 
           {/* Form */}
-          <motion.form
-            onSubmit={handleSubmit}
-            className="relative"
-          >
+          <motion.form onSubmit={handleSubmit} className="relative" noValidate>
             {errors.submit && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-center"
+                data-form-error="submit"
+                role="alert"
+                tabIndex={-1}
               >
                 {errors.submit}
               </motion.div>
@@ -581,89 +775,103 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
               </motion.div>
             )}
 
-            {pendingWhatsAppMessage && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                <div
-                  className="absolute inset-0 bg-black/50"
-                  onClick={() => setPendingWhatsAppMessage(null)}
-                />
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-beige-medium p-6 sm:p-7"
-                  role="dialog"
-                  aria-modal="true"
-                  aria-label="Confirmación de WhatsApp"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h4 className="text-xl font-serif font-semibold text-coffee-dark">
-                        Se abrirá WhatsApp
-                      </h4>
-                      <p className="mt-2 text-sm text-coffee-medium">
-                        Al continuar, se abrirá WhatsApp/WhatsApp Web con el mensaje precargado. Luego debes tocar{" "}
-                        <span className="font-semibold">Enviar</span> dentro de WhatsApp.
+            {pendingWhatsAppMessage &&
+              createPortal(
+                <div className="ledger-order order-modal-layer fixed inset-0 z-50 flex items-center justify-center p-4">
+                  <div
+                    className="absolute inset-0 bg-black/50"
+                    onClick={closeWhatsAppDialog}
+                  />
+                  <motion.div
+                    ref={dialogRef}
+                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-beige-medium p-6 sm:p-7"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="whatsapp-dialog-title"
+                    onKeyDown={handleDialogKeyDown}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h4
+                          id="whatsapp-dialog-title"
+                          className="text-xl font-serif font-semibold text-coffee-dark"
+                        >
+                          Se abrirá WhatsApp
+                        </h4>
+                        <p className="mt-2 text-sm text-coffee-medium">
+                          Al continuar, se abrirá WhatsApp/WhatsApp Web con el
+                          mensaje precargado. Luego debes tocar{" "}
+                          <span className="font-semibold">Enviar</span> dentro
+                          de WhatsApp.
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={closeWhatsAppDialog}
+                        className="shrink-0 px-3 py-2 rounded-lg text-coffee-medium hover:bg-beige-cream transition"
+                        aria-label="Cerrar"
+                        data-dialog-autofocus
+                      >
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 24 24"
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        >
+                          <path d="M6 6l12 12M18 6L6 18" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="mt-4">
+                      <label
+                        htmlFor="whatsapp-message-preview"
+                        className="block text-xs font-semibold text-coffee-light uppercase tracking-wide mb-2"
+                      >
+                        Mensaje a enviar
+                      </label>
+                      <textarea
+                        id="whatsapp-message-preview"
+                        readOnly
+                        value={pendingWhatsAppMessage}
+                        className="w-full h-44 sm:h-52 rounded-xl border border-beige-medium bg-beige-cream/30 p-4 text-sm text-coffee-dark leading-relaxed"
+                      />
+                      <p className="mt-2 text-xs text-coffee-light">
+                        Tip: si WhatsApp no pone el texto automáticamente,
+                        puedes pegarlo (lo intentaremos copiar antes de abrir).
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setPendingWhatsAppMessage(null)}
-                      className="shrink-0 px-3 py-2 rounded-lg text-coffee-medium hover:bg-beige-cream transition"
-                      aria-label="Cerrar"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        viewBox="0 0 24 24"
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
+
+                    <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-end">
+                      <motion.button
+                        type="button"
+                        onClick={closeWhatsAppDialog}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className="px-6 py-3 rounded-xl border-2 border-coffee-light text-coffee-medium font-semibold hover:bg-beige-cream transition-all duration-300"
                       >
-                        <path d="M6 6l12 12M18 6L6 18" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <div className="mt-4">
-                    <label className="block text-xs font-semibold text-coffee-light uppercase tracking-wide mb-2">
-                      Mensaje a enviar
-                    </label>
-                    <textarea
-                      readOnly
-                      value={pendingWhatsAppMessage}
-                      className="w-full h-44 sm:h-52 rounded-xl border border-beige-medium bg-beige-cream/30 p-4 text-sm text-coffee-dark leading-relaxed"
-                    />
-                    <p className="mt-2 text-xs text-coffee-light">
-                      Tip: si WhatsApp no pone el texto automáticamente, puedes pegarlo (lo intentaremos copiar antes de
-                      abrir).
-                    </p>
-                  </div>
-
-                  <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-end">
-                    <motion.button
-                      type="button"
-                      onClick={() => setPendingWhatsAppMessage(null)}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      className="px-6 py-3 rounded-xl border-2 border-coffee-light text-coffee-medium font-semibold hover:bg-beige-cream transition-all duration-300"
-                    >
-                      Cancelar
-                    </motion.button>
-                    <motion.button
-                      type="button"
-                      onClick={confirmOpenWhatsApp}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      className="px-6 py-3 rounded-xl bg-[#25D366] text-white font-semibold hover:bg-[#20BD5A] transition-all duration-300 shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-3"
-                    >
-                      <WhatsAppIcon />
-                      Abrir WhatsApp
-                    </motion.button>
-                  </div>
-                </motion.div>
-              </div>
-            )}
+                        Cancelar
+                      </motion.button>
+                      <motion.button
+                        type="button"
+                        onClick={confirmOpenWhatsApp}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className="px-6 py-3 rounded-xl bg-[#25D366] text-white font-semibold hover:bg-[#20BD5A] transition-all duration-300 shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-3"
+                      >
+                        <WhatsAppIcon />
+                        Abrir WhatsApp
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                </div>,
+                document.body,
+              )}
 
             <div className="bg-white rounded-2xl shadow-xl shadow-coffee-dark/5 border border-beige-medium/50 p-6 sm:p-8 md:p-10 overflow-hidden">
               <AnimatePresence mode="wait" custom={currentStep}>
@@ -695,8 +903,11 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                           <OptionCard
                             key={p.id}
                             option={p}
+                            field="presentacion"
                             isSelected={formData.presentacion === p.id}
-                            onClick={() => handleOptionSelect('presentacion', p.id)}
+                            onClick={() =>
+                              handleOptionSelect("presentacion", p.id)
+                            }
                             hasError={!!errors.presentacion}
                           />
                         ))}
@@ -706,6 +917,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           className="mt-2 text-sm text-red-500"
+                          role="alert"
                         >
                           {errors.presentacion}
                         </motion.p>
@@ -722,8 +934,9 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                           <OptionCard
                             key={t.id}
                             option={t}
+                            field="tipo"
                             isSelected={formData.tipo === t.id}
-                            onClick={() => handleOptionSelect('tipo', t.id)}
+                            onClick={() => handleOptionSelect("tipo", t.id)}
                             hasError={!!errors.tipo}
                           />
                         ))}
@@ -733,6 +946,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           className="mt-2 text-sm text-red-500"
+                          role="alert"
                         >
                           {errors.tipo}
                         </motion.p>
@@ -749,8 +963,9 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                           <OptionCard
                             key={t.id}
                             option={t}
+                            field="tueste"
                             isSelected={formData.tueste === t.id}
-                            onClick={() => handleOptionSelect('tueste', t.id)}
+                            onClick={() => handleOptionSelect("tueste", t.id)}
                             hasError={!!errors.tueste}
                           />
                         ))}
@@ -760,6 +975,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           className="mt-2 text-sm text-red-500"
+                          role="alert"
                         >
                           {errors.tueste}
                         </motion.p>
@@ -797,7 +1013,11 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                         required
                       />
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div
+                        className="grid grid-cols-1 sm:grid-cols-2 gap-5"
+                        role="group"
+                        aria-describedby="contact-method-hint"
+                      >
                         <InputWithIcon
                           icon={<PhoneIcon />}
                           label="Teléfono"
@@ -807,7 +1027,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                           value={formData.telefono}
                           onChange={handleChange}
                           error={errors.telefono}
-                          required={!formData.email}
+                          describedBy="contact-method-hint"
                         />
 
                         <InputWithIcon
@@ -819,12 +1039,16 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                           value={formData.email}
                           onChange={handleChange}
                           error={errors.email}
-                          required={!formData.telefono}
+                          describedBy="contact-method-hint"
                         />
                       </div>
 
-                      <p className="text-sm text-coffee-light bg-beige-cream/50 p-3 rounded-lg">
-                        Ingresa al menos un teléfono o email para que podamos contactarte
+                      <p
+                        id="contact-method-hint"
+                        className="text-sm text-coffee-light bg-beige-cream/50 p-3 rounded-lg"
+                      >
+                        Ingresa al menos un teléfono o email para que podamos
+                        contactarte
                       </p>
                     </div>
                   </motion.div>
@@ -857,7 +1081,12 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <motion.button
                             type="button"
-                            onClick={() => setFormData({ ...formData, deliveryDayType: "weekday" })}
+                            onClick={() =>
+                              setFormData({
+                                ...formData,
+                                deliveryDayType: "weekday",
+                              })
+                            }
                             whileHover={{ scale: 1.01 }}
                             whileTap={{ scale: 0.99 }}
                             className={`p-4 rounded-xl border-2 text-left transition-all duration-300 ${
@@ -866,12 +1095,21 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                                 : "border-beige-medium bg-white hover:border-coffee-light hover:shadow-md"
                             }`}
                           >
-                            <div className="font-semibold text-coffee-dark">Entre semana (Lun–Vie)</div>
-                            <div className="text-sm text-coffee-light mt-1">Envío estándar dentro de Quito</div>
+                            <div className="font-semibold text-coffee-dark">
+                              Entre semana (Lun–Vie)
+                            </div>
+                            <div className="text-sm text-coffee-light mt-1">
+                              Envío estándar dentro de Quito
+                            </div>
                           </motion.button>
                           <motion.button
                             type="button"
-                            onClick={() => setFormData({ ...formData, deliveryDayType: "weekend" })}
+                            onClick={() =>
+                              setFormData({
+                                ...formData,
+                                deliveryDayType: "weekend",
+                              })
+                            }
                             whileHover={{ scale: 1.01 }}
                             whileTap={{ scale: 0.99 }}
                             className={`p-4 rounded-xl border-2 text-left transition-all duration-300 ${
@@ -880,8 +1118,12 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
                                 : "border-beige-medium bg-white hover:border-coffee-light hover:shadow-md"
                             }`}
                           >
-                            <div className="font-semibold text-coffee-dark">Fin de semana</div>
-                            <div className="text-sm text-coffee-light mt-1">Promo de envío dentro de Quito</div>
+                            <div className="font-semibold text-coffee-dark">
+                              Fin de semana
+                            </div>
+                            <div className="text-sm text-coffee-light mt-1">
+                              Promo de envío dentro de Quito
+                            </div>
                           </motion.button>
                         </div>
                       </div>
@@ -910,39 +1152,68 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
 
                       {/* Resumen del pedido */}
                       <div className="mt-8 p-5 bg-gradient-to-br from-beige-cream to-beige-warm rounded-xl border border-beige-medium">
-                        <h4 className="font-semibold text-coffee-dark mb-3">Resumen de tu pedido</h4>
+                        <h4 className="font-semibold text-coffee-dark mb-3">
+                          Resumen de tu pedido
+                        </h4>
                         {totalsForUI ? (
                           <div className="space-y-3 text-sm">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                               <div className="flex justify-between">
-                                <span className="text-coffee-light">Presentación:</span>
-                                <span className="font-medium text-coffee-dark">{formData.presentacion}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-coffee-light">Tueste:</span>
-                                <span className="font-medium text-coffee-dark">{formData.tueste}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-coffee-light">Variedad:</span>
-                                <span className="font-medium text-coffee-dark">{formData.tipo}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-coffee-light">Entrega:</span>
+                                <span className="text-coffee-light">
+                                  Presentación:
+                                </span>
                                 <span className="font-medium text-coffee-dark">
-                                  {formData.deliveryDayType === "weekend" ? "Fin de semana" : "Entre semana"}
+                                  {formData.presentacion}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">
+                                  Tueste:
+                                </span>
+                                <span className="font-medium text-coffee-dark">
+                                  {formData.tueste}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">
+                                  Variedad:
+                                </span>
+                                <span className="font-medium text-coffee-dark">
+                                  {formData.tipo}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-coffee-light">
+                                  Entrega:
+                                </span>
+                                <span className="font-medium text-coffee-dark">
+                                  {formData.deliveryDayType === "weekend"
+                                    ? "Fin de semana"
+                                    : "Entre semana"}
                                 </span>
                               </div>
                             </div>
 
                             <div className="border-t border-beige-medium pt-3">
-                              <div className="text-coffee-light mb-2">Items:</div>
+                              <div className="text-coffee-light mb-2">
+                                Items:
+                              </div>
                               <div className="space-y-1">
                                 {cartItems
-                                  .filter((x) => Number.isFinite(x.qty) && x.qty > 0)
+                                  .filter(
+                                    (x) => Number.isFinite(x.qty) && x.qty > 0,
+                                  )
                                   .map((x) => (
-                                    <div key={x.id} className="flex justify-between">
-                                      <span className="text-coffee-medium">{x.size}g</span>
-                                      <span className="font-medium text-coffee-dark">× {x.qty}</span>
+                                    <div
+                                      key={x.id}
+                                      className="flex justify-between"
+                                    >
+                                      <span className="text-coffee-medium">
+                                        {x.size}g
+                                      </span>
+                                      <span className="font-medium text-coffee-dark">
+                                        × {x.qty}
+                                      </span>
                                     </div>
                                   ))}
                               </div>
@@ -950,12 +1221,21 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
 
                             {totalsForUI.appliedPromos.length > 0 && (
                               <div className="border-t border-beige-medium pt-3">
-                                <div className="text-coffee-light mb-2">Promos aplicadas:</div>
+                                <div className="text-coffee-light mb-2">
+                                  Promos aplicadas:
+                                </div>
                                 <div className="space-y-1">
                                   {totalsForUI.appliedPromos.map((p) => (
-                                    <div key={p.id} className="flex justify-between gap-4">
-                                      <span className="text-coffee-medium">{p.label}</span>
-                                      <span className="font-medium text-coffee-dark">{formatMoney(p.discount)}</span>
+                                    <div
+                                      key={p.id}
+                                      className="flex justify-between gap-4"
+                                    >
+                                      <span className="text-coffee-medium">
+                                        {p.label}
+                                      </span>
+                                      <span className="font-medium text-coffee-dark">
+                                        {formatMoney(p.discount)}
+                                      </span>
                                     </div>
                                   ))}
                                 </div>
@@ -964,56 +1244,85 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
 
                             <div className="border-t border-beige-medium pt-3 space-y-1">
                               <div className="flex justify-between">
-                                <span className="text-coffee-light">Subtotal normal:</span>
+                                <span className="text-coffee-light">
+                                  Subtotal normal:
+                                </span>
                                 <span className="font-medium text-coffee-dark">
                                   {formatMoney(totalsForUI.normalSubtotal)}
                                 </span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-coffee-light">Subtotal con promo:</span>
+                                <span className="text-coffee-light">
+                                  Subtotal con promo:
+                                </span>
                                 <span className="font-medium text-coffee-dark">
                                   {formatMoney(totalsForUI.promoSubtotal)}
                                 </span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-coffee-light">Envío:</span>
-                                <span className="font-medium text-coffee-dark">{formatMoney(totalsForUI.shipping)}</span>
+                                <span className="text-coffee-light">
+                                  Envío:
+                                </span>
+                                <span className="font-medium text-coffee-dark">
+                                  {formatMoney(totalsForUI.shipping)}
+                                </span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-coffee-light">Descuento:</span>
+                                <span className="text-coffee-light">
+                                  Descuento:
+                                </span>
                                 <span className="font-medium text-coffee-dark">
                                   {formatMoney(totalsForUI.discountTotal)}
                                 </span>
                               </div>
                               <div className="flex justify-between pt-2">
-                                <span className="text-coffee-medium font-semibold">Total:</span>
-                                <span className="text-coffee-dark font-semibold">{formatMoney(totalsForUI.total)}</span>
+                                <span className="text-coffee-medium font-semibold">
+                                  Total:
+                                </span>
+                                <span className="text-coffee-dark font-semibold">
+                                  {formatMoney(totalsForUI.total)}
+                                </span>
                               </div>
                             </div>
                           </div>
                         ) : (
                           <div className="text-sm text-coffee-light space-y-2">
                             <div className="flex justify-between">
-                              <span className="text-coffee-light">Presentación:</span>
-                              <span className="font-medium text-coffee-dark">{formData.presentacion}</span>
+                              <span className="text-coffee-light">
+                                Presentación:
+                              </span>
+                              <span className="font-medium text-coffee-dark">
+                                {formData.presentacion}
+                              </span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-coffee-light">Variedad:</span>
-                              <span className="font-medium text-coffee-dark">{formData.tipo}</span>
+                              <span className="text-coffee-light">
+                                Variedad:
+                              </span>
+                              <span className="font-medium text-coffee-dark">
+                                {formData.tipo}
+                              </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-coffee-light">Tueste:</span>
-                              <span className="font-medium text-coffee-dark">{formData.tueste}</span>
+                              <span className="font-medium text-coffee-dark">
+                                {formData.tueste}
+                              </span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-coffee-light">Entrega:</span>
+                              <span className="text-coffee-light">
+                                Entrega:
+                              </span>
                               <span className="font-medium text-coffee-dark">
-                                {formData.deliveryDayType === "weekend" ? "Fin de semana" : "Entre semana"}
+                                {formData.deliveryDayType === "weekend"
+                                  ? "Fin de semana"
+                                  : "Entre semana"}
                               </span>
                             </div>
                             <div className="border-t border-beige-medium pt-3">
-                              No has agregado productos al carrito. Puedes hacerlo en la sección de productos y volver
-                              a enviar tu pedido.
+                              No has agregado productos al carrito. Puedes
+                              hacerlo en la sección de productos y volver a
+                              enviar tu pedido.
                             </div>
                           </div>
                         )}

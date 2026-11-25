@@ -232,7 +232,7 @@ a {
 
 .ledger-cart {
   display: inline-flex;
-  min-height: 42px;
+  min-height: 44px;
   align-items: center;
   border: 1px solid rgba(241, 231, 210, 0.42);
   color: var(--paper);
@@ -249,7 +249,7 @@ a {
 
 .ledger-cart strong {
   display: grid;
-  min-width: 42px;
+  min-width: 44px;
   align-self: stretch;
   place-items: center;
   background: var(--roast);
@@ -270,7 +270,7 @@ a {
   padding: 34px 0 42px;
   background:
     linear-gradient(90deg, rgba(23, 19, 15, 0.58), rgba(23, 19, 15, 0.9)),
-    url("/roaster-tasklight.png") left 42% / cover no-repeat,
+    url("/roaster-tasklight.webp") left 42% / cover no-repeat,
     var(--ink);
 }
 
@@ -344,7 +344,7 @@ a {
   height: 168px;
   background:
     linear-gradient(180deg, var(--paper) 0%, rgba(241, 231, 210, 0.32) 48%, rgba(23, 19, 15, 0.18) 100%),
-    url("/roaster-tasklight.png") 18% 57% / cover no-repeat;
+    url("/roaster-tasklight.webp") 18% 57% / cover no-repeat;
   content: "";
   filter: saturate(0.82) contrast(1.05);
   opacity: 0.82;
@@ -460,7 +460,7 @@ a {
 }
 
 .batch-options button {
-  min-height: 40px;
+  min-height: 44px;
   padding: 7px 13px;
   border: 1px solid var(--ink);
   border-radius: 2px;
@@ -769,7 +769,7 @@ a {
 .product-ledger button,
 .promo-ledger button {
   position: relative;
-  min-height: 42px;
+  min-height: 44px;
   border: 1px solid var(--paper);
   border-radius: 2px;
   background: transparent;
@@ -972,7 +972,7 @@ a {
   background: var(--roast);
   color: var(--paper-light);
   font-family: var(--font-display), sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 800;
   line-height: 1;
   text-align: center;
@@ -1278,6 +1278,46 @@ a {
   font-size: clamp(3.5rem, 7vw, 6rem);
 }
 
+.order-cart-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1060px;
+  margin: 0 auto 32px;
+  padding: 18px 20px;
+  border: 1px solid var(--roast-dark);
+  border-radius: 2px;
+  background: var(--paper-light);
+}
+
+.order-cart-notice strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.order-cart-notice p {
+  margin-top: 4px;
+  color: var(--ink-soft);
+}
+
+.order-cart-notice a {
+  display: inline-flex;
+  min-height: 44px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  font-family: var(--font-ledger), monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 .ledger-order .max-w-4xl {
   max-width: 1060px;
 }
@@ -1498,7 +1538,7 @@ a {
   min-height: 50px;
   border-radius: 2px;
   font-family: var(--font-display), sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -1533,6 +1573,27 @@ a {
 .ledger-order button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.order-modal-layer::before {
+  display: none;
+}
+
+.order-modal-layer {
+  position: fixed;
+  inset: 0;
+}
+
+.order-modal-layer button {
+  min-height: 44px;
+  border-radius: 2px;
+}
+
+.order-modal-layer .bg-\[\#25D366\] {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .ledger-footer {
@@ -1673,8 +1734,8 @@ a {
 
   .ledger-menu {
     display: grid;
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     place-content: center;
     gap: 6px;
     border: 1px solid rgba(241, 231, 210, 0.42);
@@ -1809,7 +1870,7 @@ a {
     height: 40px;
     background:
       linear-gradient(180deg, var(--paper) 0%, rgba(241, 231, 210, 0.12) 40%, rgba(23, 19, 15, 0.12) 100%),
-      url("/roaster-tasklight.png") 18% 57% / cover no-repeat;
+      url("/roaster-tasklight.webp") 18% 57% / cover no-repeat;
     opacity: 0.92;
   }
 
@@ -1973,8 +2034,14 @@ a {
   }
 
   .product-ledger article button {
-    min-height: 42px;
+    min-height: 44px;
     grid-column: 2;
+  }
+
+  .order-cart-notice {
+    align-items: stretch;
+    flex-direction: column;
+    margin-bottom: 24px;
   }
 
   .promo-ledger {
