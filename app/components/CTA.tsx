@@ -14,7 +14,7 @@ export default function CTA() {
           </footer>
         </blockquote>
         <div className="founder-note">
-          <h2>Una persona responde por cada lote.</h2>
+          <h2>Pide hoy tu café lojano recién tostado</h2>
           <p>
             Fausto acompaña el proceso desde la selección hasta el tostado. Tu pedido
             conserva esa relación directa: eliges en la web y confirmas con el negocio

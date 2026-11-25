@@ -6,6 +6,7 @@ import { useCart } from "@/app/providers/CartProvider";
 const links = [
   { label: "Cómo tostamos", href: "#proceso" },
   { label: "Café y precios", href: "#productos" },
+  { label: "Club mensual", href: "#club" },
   { label: "Entregas", href: "#entregas" },
 ];
 

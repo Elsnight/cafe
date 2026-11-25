@@ -3,6 +3,8 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import Features from "./components/Features";
 import Products from "./components/Products";
+import CoffeeClub from "./components/CoffeeClub";
+import Wholesale from "./components/Wholesale";
 import Gallery from "./components/Gallery";
 import CTA from "./components/CTA";
 import OrderForm from "./components/OrderForm";
@@ -18,6 +20,8 @@ export default function Home() {
           <Hero />
           <About />
           <Products />
+          <CoffeeClub />
+          <Wholesale />
           <Features />
           <Gallery />
           <CTA />

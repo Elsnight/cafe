@@ -22,10 +22,10 @@ export default function Gallery() {
       <div className="ledger-shell">
         <div className="spec-sheet">
           <div>
-            <h2 id="specs-title">Lo que sí podemos poner por escrito.</h2>
+            <h2 id="specs-title">Café artesanal ecuatoriano cultivado en Loja</h2>
             <p>
-              Sin medallas inventadas ni porcentajes decorativos: estas son las decisiones
-              reales que acompañan cada lote.
+              Origen lojano, variedad Typica y tostado definido con cada pedido. Sin
+              porcentajes decorativos: estas son las decisiones reales de cada lote.
             </p>
           </div>
           <dl>

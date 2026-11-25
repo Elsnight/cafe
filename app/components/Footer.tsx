@@ -19,6 +19,18 @@ export default function Footer() {
           <p>Lun–Vie · 8:00–18:00</p>
           <p>Sábado · 9:00–16:00</p>
         </div>
+        <div>
+          <span>Enlaces</span>
+          <a
+            href="https://www.instagram.com/cafelojanoaltura/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
+          </a>
+          <a href="/privacidad/">Política de Privacidad</a>
+          <a href="/terminos/">Términos y Condiciones</a>
+        </div>
       </div>
       <div className="ledger-shell ledger-footer__bottom">
         <span>© {new Date().getFullYear()} Fausto&apos;s Coffee</span>

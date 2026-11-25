@@ -8,7 +8,7 @@ web
 
 ## Users
 
-The primary users are Quito residents buying fresh coffee for themselves or their households, usually for local delivery.
+The primary users are Quito residents buying fresh coffee for themselves or their households, usually for local delivery. Secondary commercial users include offices, cafés, restaurants, and gourmet retailers requesting recurring or volume supply.
 
 ## Product Purpose
 
@@ -20,13 +20,14 @@ Fausto's Coffee is roasted to order rather than sold from older inventory. Fresh
 
 ## Operating Context
 
-Customers browse coffee sizes and promotions, add quantities to a cart, choose whole bean or ground coffee, select a medium or dark roast, provide contact and Quito delivery details, review totals, and send the prepared order through WhatsApp. The current coffee variety is Typica.
+Customers browse coffee sizes, packs, monthly club plans, and wholesale terms; add quantities to a cart; choose whole bean or ground coffee; select a medium or dark roast; provide contact and Quito delivery details; review totals; and send the prepared order through WhatsApp. Subscription and B2B enquiries also begin through preconfigured WhatsApp messages. The current coffee variety is Typica.
 
 ## Capabilities and Constraints
 
 - Spanish-language storefront and ordering flow.
 - Local delivery within Quito.
 - Package sizes: 100 g, 400 g, 500 g, and 1 kg.
+- Monthly coffee-club plans and wholesale enquiries are completed through WhatsApp rather than online payment.
 - Customers can select whole bean or ground coffee and medium or dark roast.
 - Pricing, promotions, delivery fees, free-delivery threshold, and displayed business hours in the current implementation are confirmed as current.
 - Orders are prepared in the site and completed through WhatsApp; the site does not process payment.

@@ -9,10 +9,11 @@ export default function Features() {
     <section id="entregas" className="ledger-delivery">
       <div className="ledger-shell ledger-delivery__grid">
         <div>
-          <h2>El total llega claro antes que el café.</h2>
+          <h2>Envíos de café a domicilio en Quito</h2>
           <p>
-            Sin tarifas escondidas. El carrito calcula promociones, envío y descuento
-            antes de preparar el mensaje de WhatsApp.
+            Entregamos en 24-48 h en el norte, centro y sur de Quito, además de
+            Cumbayá, Tumbaco, Los Chillos y Calderón. El carrito calcula promociones,
+            envío y descuento antes de preparar el mensaje de WhatsApp.
           </p>
           <a href="#pedido">Revisar mi pedido</a>
         </div>

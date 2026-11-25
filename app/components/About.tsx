@@ -21,10 +21,11 @@ export default function About() {
     <section id="proceso" className="ledger-process">
       <div className="ledger-shell">
         <div className="ledger-section-heading">
-          <h2>Tu café no espera en una funda.</h2>
+          <h2>Café de Loja, del productor a tu taza</h2>
           <p>
-            El pedido es la señal de inicio. Así convertimos una elección sencilla en
-            un lote fresco, tostado para ti y listo para tu ritual en casa.
+            Trabajamos café de Loja de variedad Typica, cultivado con prácticas
+            sostenibles. Llega del productor y lo tostamos en Quito bajo pedido, sin
+            intermediarios, para cuidar su origen y frescura.
           </p>
         </div>
 

@@ -18,13 +18,13 @@ export const PRICING_CONFIG: PricingConfig = {
   basePrices: {
     100: 2.5,
     400: 6.95,
-    500: 7.95,
-    1000: 14.5,
+    500: 8.5,
+    1000: 15.5,
   },
   promos: {
     duo500: { requiredSize: 500, bundleQty: 2, bundlePrice: 15.0 },
-    tasting100: { requiredSize: 100, bundleQty: 3, bundlePrice: 6.0 },
-    wholesale: { minTotalGrams: 5000, pricePerKg: 13.5 },
+    tasting100: { requiredSize: 100, bundleQty: 3, bundlePrice: 6.5 },
+    wholesale: { minTotalGrams: 5000, pricePerKg: 12.0 },
   },
   shipping: {
     standardWeekday: 2.5,
@@ -32,4 +32,3 @@ export const PRICING_CONFIG: PricingConfig = {
     freeThreshold: 35.0,
   },
 };
-

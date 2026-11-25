@@ -523,7 +523,7 @@ ${formData.email ? `• Email: ${formData.email}` : ""}
             <motion.h2
               className="text-3xl sm:text-4xl md:text-5xl font-serif text-coffee-dark mb-4"
             >
-              Cierra tu lote
+              Comprar café en Quito: haz tu pedido en 2 minutos
             </motion.h2>
             <motion.p
               className="text-coffee-medium text-lg max-w-2xl mx-auto"

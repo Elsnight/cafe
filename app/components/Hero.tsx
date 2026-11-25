@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 import { useCart } from "@/app/providers/CartProvider";
 import { PRICING_CONFIG } from "@/lib/pricing/pricing.config";
 import { formatMoney } from "@/lib/pricing/money";
+import { CATALOG_PACKS } from "@/lib/catalog/catalog.config";
 import type { PackSize, Presentation, Roast } from "@/lib/pricing/types";
-
-const sizes: PackSize[] = [100, 400, 500, 1000];
 
 export default function Hero() {
   const { addItem } = useCart();
@@ -15,6 +14,7 @@ export default function Hero() {
   const [presentation, setPresentation] = useState<Presentation>("Molido");
   const [roast, setRoast] = useState<Roast>("Medio");
   const [added, setAdded] = useState(false);
+  const selectedPack = CATALOG_PACKS.find((pack) => pack.size === size) ?? CATALOG_PACKS[0];
 
   const addBatch = () => {
     addItem({ size, qty: 1, presentation, roast, variety: "Typica" });
@@ -36,11 +36,13 @@ export default function Hero() {
               animate={{ clipPath: "inset(0 0% 0 0)" }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              Tostamos después de <em>tu pedido.</em>
+              Café Lojano de Altura, Tostado Bajo Pedido y con Envíos en Quito
             </motion.h1>
             <p className="batch-claim__copy">
-              No sacamos una bolsa vieja de una estantería. Tu selección entra al lote de
-              Fausto y se tuesta para ti.
+              En Fausto&apos;s Coffee tostamos café lojano de variedad Typica solo cuando
+              haces tu pedido, para que llegue fresco a tu casa u oficina. Elige café
+              molido de Loja listo para preparar o en grano para moler al momento, desde
+              $2.50, con entrega en Quito en 24-48 horas.
             </p>
             <div className="batch-stamp">Tostado a pedido · Typica</div>
           </div>
@@ -67,19 +69,23 @@ export default function Hero() {
             <fieldset>
               <legend>Elige tu paquete</legend>
               <div className="batch-options batch-options--sizes">
-                {sizes.map((packSize) => (
+                {CATALOG_PACKS.map((pack) => (
                   <button
                     type="button"
-                    key={packSize}
-                    className={size === packSize ? "is-selected" : ""}
-                    onClick={() => setSize(packSize)}
-                    aria-pressed={size === packSize}
+                    key={pack.size}
+                    className={size === pack.size ? "is-selected" : ""}
+                    onClick={() => setSize(pack.size)}
+                    aria-pressed={size === pack.size}
                   >
-                    <b>{packSize === 1000 ? "1 kg" : `${packSize} g`}</b>
-                    <span>{formatMoney(PRICING_CONFIG.basePrices[packSize])}</span>
+                    <small>{pack.badge}</small>
+                    <b>{pack.size === 1000 ? "1 kg" : `${pack.size} g`}</b>
+                    <span>{formatMoney(PRICING_CONFIG.basePrices[pack.size])}</span>
                   </button>
                 ))}
               </div>
+              <p className="batch-choice-note" aria-live="polite">
+                <strong>{selectedPack.badge}:</strong> {selectedPack.detail}
+              </p>
             </fieldset>
 
             <div className="batch-config__row">

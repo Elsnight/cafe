@@ -56,7 +56,7 @@ export default function Logo({
     <span className={wrapperClassName}>
       <Image
         src="/Logo.png"
-        alt="Fausto's Coffee - Café de altura y corazón lojano"
+        alt="Logo de Fausto's Coffee, café lojano de altura en Quito"
         width={config.width}
         height={config.height}
         priority
