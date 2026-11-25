@@ -342,16 +342,21 @@ export default function OrderForm() {
     const page = document.querySelector<HTMLElement>(".roast-ledger");
     page?.setAttribute("inert", "");
 
-    const frame = window.requestAnimationFrame(() => {
-      dialogRef.current
-        ?.querySelector<HTMLElement>("[data-dialog-autofocus]")
-        ?.focus();
-    });
+    const timer = window.setTimeout(() => {
+      const autofocus = document.querySelector<HTMLElement>(
+        "[data-dialog-autofocus]",
+      );
+      if (autofocus) {
+        autofocus.focus();
+      } else {
+        document.querySelector<HTMLElement>('[role="dialog"] button')?.focus();
+      }
+    }, 80);
 
     return () => {
-      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
       page?.removeAttribute("inert");
-      window.requestAnimationFrame(() => dialogTriggerRef.current?.focus());
+      window.setTimeout(() => dialogTriggerRef.current?.focus(), 50);
     };
   }, [pendingWhatsAppMessage]);
 
